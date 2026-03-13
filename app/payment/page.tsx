@@ -12,17 +12,17 @@ export default function PaymentPage() {
   const packages = {
     corporate: {
       name: 'Corporate Package',
-      price: '₦200,000',
+      price: '₦300,000+',
       description: 'Logo, basic brand guidelines, stationery, social kit, basic website',
     },
     professional: {
       name: 'Professional Package',
-      price: '₦750,000',
+      price: '₦800,000+',
       description: 'Complete brand identity, guidelines, marketing collateral, 5‑page website',
     },
     enterprise: {
       name: 'Enterprise Package',
-      price: '₦1,500,000+',
+      price: '₦2,000,000+',
       description: 'Custom solution including everything in Professional plus advanced development',
     },
   };
@@ -164,9 +164,9 @@ export default function PaymentPage() {
                     onChange={handlePackageChange}
                     className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#0f9b8e]"
                   >
-                    <option value="corporate">Corporate – ₦200,000</option>
-                    <option value="professional">Professional – ₦750,000</option>
-                    <option value="enterprise">Enterprise – from ₦1,500,000</option>
+                    <option value="corporate">Corporate – ₦300,000</option>
+                    <option value="professional">Professional – ₦800,000</option>
+                    <option value="enterprise">Enterprise – from ₦2,000,000</option>
                   </select>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">

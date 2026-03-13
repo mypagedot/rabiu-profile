@@ -177,30 +177,35 @@ export default function PortfolioPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Smooth scroll for anchor links
-  useEffect(() => {
-    const handleAnchorClick = (e: MouseEvent) => {
-      const target = e.target as HTMLAnchorElement;
-      if (target.hash && target.hash.startsWith('#') && target.hash.length > 1) {
-        e.preventDefault();
-        const element = document.querySelector(target.hash);
-        if (element) {
-          window.scrollTo({
-            top: element.getBoundingClientRect().top + window.scrollY - 80,
-            behavior: 'smooth',
-          });
-        }
+    // Smooth scroll for anchor links
+useEffect(() => {
+  const handleAnchorClick = (e: Event) => {
+    const target = e.currentTarget as HTMLAnchorElement;
+
+    if (target.hash && target.hash.startsWith('#') && target.hash.length > 1) {
+      e.preventDefault();
+
+      const element = document.querySelector(target.hash);
+
+      if (element) {
+        window.scrollTo({
+          top: element.getBoundingClientRect().top + window.scrollY - 80,
+          behavior: 'smooth',
+        });
       }
-    };
+    }
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', handleAnchorClick);
+  });
+
+  return () => {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', handleAnchorClick);
+      anchor.removeEventListener('click', handleAnchorClick);
     });
-    return () => {
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.removeEventListener('click', handleAnchorClick);
-      });
-    };
-  }, []);
+  };
+}, []);
 
   return (
     <>
@@ -319,7 +324,7 @@ export default function PortfolioPage() {
               <li>
                 <Link
                   href="/contact"
-                  className="nav-cta bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] rounded-[30px] px-[22px] py-2 text-white font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block md:inline-block text-center"
+                  className="nav-cta bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] rounded-[30px] px-5.5 py-2 text-white font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 block md:inline-block text-center"
                   onClick={closeMobileMenu}
                 >
                   Let's Talk
