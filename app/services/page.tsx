@@ -1,7 +1,218 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+
+// ----- Industrial Services (for clients) -----
+const industrialServices = [
+  {
+    id: 'mobile-app-dev',
+    title: 'Mobile Application Development',
+    description:
+      'End‑to‑end mobile app development for iOS and Android. From concept to App Store – I build high‑performance, scalable apps tailored to your business needs.',
+    icon: 'fa-mobile-alt',
+    features: [
+      'Native iOS (Swift) & Android (Kotlin)',
+      'Cross‑platform (React Native / Flutter)',
+      'Backend integration & APIs',
+      'App Store & Play Store deployment',
+      'Maintenance & support',
+    ],
+  },
+  {
+    id: 'visual-brand-system',
+    title: 'Visual Brand System Designer',
+    description:
+      'Complete brand identity that communicates your unique value. I design cohesive visual systems that work across digital and print.',
+    icon: 'fa-paint-brush',
+    features: [
+      'Logo design & variations',
+      'Color palette & typography',
+      'Brand guidelines documentation',
+      'Stationery & marketing materials',
+      'Design system for digital products',
+    ],
+  },
+  {
+    id: 'ui-ux-wireframing',
+    title: 'UI/UX Wireframing & Prototyping',
+    description:
+      'User‑centered design for mobile apps. I create wireframes, interactive prototypes, and high‑fidelity UI that align with platform guidelines.',
+    icon: 'fa-drafting-compass',
+    features: [
+      'User research & personas',
+      'Wireframes (low to high fidelity)',
+      'Interactive prototypes (Figma)',
+      'Usability testing',
+      'Design handoff for developers',
+    ],
+  },
+];
+
+// ----- Training Packages (for learners) -----
+const trainingPackages = [
+  {
+    id: 'become-mobile-engineer',
+    title: 'Become a Mobile Software Engineer – Full Package',
+    description:
+      'Master both native and cross‑platform development. Build real‑world apps, learn backend integration, and get career support.',
+    icon: 'fa-code',
+    duration: '16 weeks',
+    priceNGN: 1200000,
+    modules: [
+      {
+        name: 'Programming Fundamentals',
+        topics: [
+          'Swift & Kotlin basics',
+          'Object‑oriented programming',
+          'Data structures & algorithms',
+        ],
+      },
+      {
+        name: 'Native iOS Development',
+        topics: [
+          'UIKit & SwiftUI',
+          'Auto Layout & navigation',
+          'Core Data & networking',
+        ],
+      },
+      {
+        name: 'Native Android Development',
+        topics: [
+          'Activities, fragments, intents',
+          'Material Design & Jet pack',
+          'Room database & Retrofit',
+        ],
+      },
+      {
+        name: 'Cross‑Platform (React Native)',
+        topics: [
+          'React Native components',
+          'State management',
+          'Native modules',
+        ],
+      },
+      {
+        name: 'Backend & APIs',
+        topics: [
+          'REST & GraphQL',
+          'Firebase (Auth, Fire store)',
+          'Cloud functions',
+        ],
+      },
+      {
+        name: 'Deployment & Career',
+        topics: [
+          'App store submission',
+          'Portfolio building',
+          'CV & interview prep',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'become-brand-designer',
+    title: 'Become a Visual Brand System Designer – Full Package',
+    description:
+      'Learn to create complete brand identities from scratch. Includes logo design, color theory, typography, and brand guidelines.',
+    icon: 'fa-paint-brush',
+    duration: '10 weeks',
+    priceNGN: 850000,
+    modules: [
+      {
+        name: 'Brand Strategy',
+        topics: [
+          'Brand positioning',
+          'Audience analysis',
+          'Mood boards & inspiration',
+        ],
+      },
+      {
+        name: 'Logo Design',
+        topics: [
+          'Sketching & conceptualisation',
+          'Vectorisation (Illustrator)',
+          'Logo variations & lockups',
+        ],
+      },
+      {
+        name: 'Color & Typography',
+        topics: [
+          'Color theory & psychology',
+          'Palette creation',
+          'Type pairing & hierarchy',
+        ],
+      },
+      {
+        name: 'Brand Guidelines',
+        topics: [
+          'Document structure',
+          'Usage rules',
+          'Tone of voice',
+        ],
+      },
+      {
+        name: 'Real‑World Applications',
+        topics: [
+          'Stationery design',
+          'Digital mockups',
+          'Final asset delivery',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'become-uiux-designer',
+    title: 'Become a UI/UX Designer – Full Package',
+    description:
+      'Design intuitive mobile experiences. Cover wireframing, prototyping, user research, and design systems.',
+    icon: 'fa-pencil-ruler',
+    duration: '12 weeks',
+    priceNGN: 1000000,
+    modules: [
+      {
+        name: 'UX Fundamentals',
+        topics: [
+          'User research methods',
+          'Personas & journey maps',
+          'Information architecture',
+        ],
+      },
+      {
+        name: 'Wireframing & Prototyping',
+        topics: [
+          'Low‑fidelity wireframes',
+          'Interactive prototypes (Figma)',
+          'Usability testing',
+        ],
+      },
+      {
+        name: 'Visual UI Design',
+        topics: [
+          'iOS HIG & Material Design',
+          'Color, typography, spacing',
+          'Components & icons',
+        ],
+      },
+      {
+        name: 'Design Systems',
+        topics: [
+          'Design tokens',
+          'Component libraries',
+          'Documentation',
+        ],
+      },
+      {
+        name: 'Portfolio & Career',
+        topics: [
+          'Case study creation',
+          'Portfolio presentation',
+          'Interview preparation',
+        ],
+      },
+    ],
+  },
+];
 
 export default function ServicesPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -122,7 +333,7 @@ export default function ServicesPage() {
               <li>
                 <Link
                   href="/contact"
-                  className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-5 lg:px-7 py-2 lg:py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl hover:from-[#1dc9b7] hover:to-[#0f9b8e] transition-all duration-300 hover:-translate-y-0.5"
+                  className="bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-5 lg:px-7 py-2 lg:py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl hover:from-[#1dc9b7] hover:to-[#0f9b8e] transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Let's Talk
                 </Link>
@@ -159,7 +370,7 @@ export default function ServicesPage() {
               </Link>
               <Link
                 href="/contact"
-                className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold"
+                className="bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold"
                 onClick={closeMobileMenu}
               >
                 Let's Talk
@@ -169,257 +380,181 @@ export default function ServicesPage() {
         </div>
       </header>
 
-      <main className="pt-20">
-        {/* Services Hero Section */}
+      <main>
+        {/* Hero Section */}
         <section
-          className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed overflow-hidden mb-20"
-          style={{
-            backgroundImage: 'linear-gradient(135deg, rgba(26,26,46,0.92) 0%, rgba(22,33,62,0.88) 100%), url(/assets/images/hero-bg-img.jpg)',
-          }}
+          className="relative text-white py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden mb-20 hero-section"
         >
-          <div className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle at 20% 50%, rgba(15,155,142,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(29,201,183,0.1) 0%, transparent 50%)',
-            }}
+          <div
+            className="absolute inset-0 pointer-events-none hero-overlay"
           ></div>
           <div className="container mx-auto px-5 max-w-7xl relative z-10 text-center">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat'] uppercase tracking-wide drop-shadow-lg">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat'] uppercase tracking-wide drop-shadow-lg">
                 Professional{' '}
                 <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0 after:rounded">
-                  Design Services
+                  Services
                 </span>{' '}
-                & Tools
-              </h1>
-              <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
-                Comprehensive brand design solutions powered by industry-leading tools and technologies. I create strategic visual identities that communicate your brand's unique value and drive business growth.
-              </p>
+                & Learning Paths
+              </h2>
+          
               <div className="flex gap-5 justify-center flex-wrap">
                 <a
-                  href="#services"
+                  href="#industrial"
                   className="btn inline-flex items-center justify-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden z-10"
                 >
-                  <i className="fas fa-concierge-bell"></i> Explore Services
+                  <i className="fas fa-briefcase"></i> Industrial Services
                 </a>
-                <Link
-                  href="/contact"
+                <a
+                  href="#training"
                   className="btn-outline inline-flex items-center justify-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300"
                 >
-                  <i className="fas fa-calendar-check"></i> Book Consultation
-                </Link>
+                  <i className="fas fa-graduation-cap"></i> Training Packages
+                </a>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Services Overview */}
-        <section id="services" className="services-overview container mx-auto px-5 max-w-7xl mb-24">
+        {/* Industrial Services Section */}
+        <section id="industrial" className="container mx-auto px-5 max-w-7xl mb-24">
           <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-            My Design Services
+            Industrial Services
           </h2>
           <p className="text-center max-w-3xl mx-auto mb-12 text-gray-600 text-lg leading-relaxed">
-            As a Full Brand Designer, I offer comprehensive design solutions that cover every aspect of your visual identity. From initial concept to final implementation, I ensure cohesive and impactful brand experiences.
+            Professional services for businesses and startups. Let’s build something great together.
           </p>
 
-          <div className="services-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {/* Service Card 1 */}
-            <div className="service-card bg-white p-10 rounded-xl text-center border border-gray-100 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0f9b8e]/20 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0f9b8e] to-[#1dc9b7] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-              <i className="fas fa-palette text-5xl text-[#0f9b8e] group-hover:text-white mb-6 transition-colors duration-500"></i>
-              <h3 className="text-2xl font-semibold text-[#16213e] group-hover:text-white mb-4 transition-colors duration-500">Brand Identity Design</h3>
-              <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-500 mb-5">
-                Complete visual identity systems that establish a strong, memorable brand presence across all touchpoints.
-              </p>
-              <ul className="service-features text-left mt-4 space-y-2 text-sm text-gray-600 group-hover:text-white/90">
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Logo Design & Variations</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Color Palette Development</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Typography Systems</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Brand Guidelines</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Visual Language Development</li>
-              </ul>
-            </div>
-
-            {/* Service Card 2 */}
-            <div className="service-card bg-white p-10 rounded-xl text-center border border-gray-100 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0f9b8e]/20 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0f9b8e] to-[#1dc9b7] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-              <i className="fas fa-laptop text-5xl text-[#0f9b8e] group-hover:text-white mb-6 transition-colors duration-500"></i>
-              <h3 className="text-2xl font-semibold text-[#16213e] group-hover:text-white mb-4 transition-colors duration-500">UI/UX Design</h3>
-              <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-500 mb-5">
-                User-centered digital experiences that are intuitive, engaging, and conversion-focused.
-              </p>
-              <ul className="service-features text-left mt-4 space-y-2 text-sm text-gray-600 group-hover:text-white/90">
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Website Design & Development</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Mobile App UI/UX</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">User Research & Testing</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Wireframing & Prototyping</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Interaction Design</li>
-              </ul>
-            </div>
-
-            {/* Service Card 3 */}
-            <div className="service-card bg-white p-10 rounded-xl text-center border border-gray-100 transition-all duration-500 hover:-translate-y-4 hover:shadow-2xl hover:shadow-[#0f9b8e]/20 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-b from-[#0f9b8e] to-[#1dc9b7] opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-              <i className="fas fa-print text-5xl text-[#0f9b8e] group-hover:text-white mb-6 transition-colors duration-500"></i>
-              <h3 className="text-2xl font-semibold text-[#16213e] group-hover:text-white mb-4 transition-colors duration-500">Print & Packaging</h3>
-              <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-500 mb-5">
-                Tangible design solutions that create physical connections with your audience.
-              </p>
-              <ul className="service-features text-left mt-4 space-y-2 text-sm text-gray-600 group-hover:text-white/90">
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Business Stationery Design</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Product Packaging</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Marketing Collateral</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Brochures & Catalogs</li>
-                <li className="relative pl-5 before:content-['✓'] before:absolute before:left-0 before:text-[#0f9b8e] group-hover:before:text-white">Signage & Environmental Graphics</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Detailed Services */}
-        <section className="detailed-services container mx-auto px-5 max-w-7xl mb-24">
-          <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-            Detailed Service Offerings
-          </h2>
-
-          {/* Category 1 */}
-          <div className="service-category bg-white rounded-3xl p-8 md:p-12 mb-12 shadow-xl hover:-translate-y-2 transition-transform duration-300">
-            <div className="service-category-header flex flex-col md:flex-row items-center gap-6 mb-10">
-              <div className="service-category-icon w-20 h-20 rounded-full bg-gradient-to-br from-[#0f9b8e] to-[#1dc9b7] flex items-center justify-center text-white text-3xl">
-                <i className="fas fa-layer-group"></i>
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Comprehensive Brand Systems</h3>
-            </div>
-            <div className="service-items grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Complete Brand Identity</h4>
-                <p className="text-gray-600 mb-3">Full visual identity system including logo, color palette, typography, and brand guidelines.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦250,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Logo Design & Development</h4>
-                <p className="text-gray-600 mb-3">Professional logo creation with multiple concepts and final files in all formats.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦80,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Brand Guidelines Document</h4>
-                <p className="text-gray-600 mb-3">Comprehensive brand manual detailing logo usage, colors, typography, and applications.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦120,000</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Category 2 */}
-          <div className="service-category bg-white rounded-3xl p-8 md:p-12 mb-12 shadow-xl hover:-translate-y-2 transition-transform duration-300">
-            <div className="service-category-header flex flex-col md:flex-row items-center gap-6 mb-10">
-              <div className="service-category-icon w-20 h-20 rounded-full bg-gradient-to-br from-[#0f9b8e] to-[#1dc9b7] flex items-center justify-center text-white text-3xl">
-                <i className="fas fa-code"></i>
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Digital Design & Development</h3>
-            </div>
-            <div className="service-items grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Website Design & Development</h4>
-                <p className="text-gray-600 mb-3">Custom website design with responsive development and CMS integration.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦350,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Mobile App UI/UX Design</h4>
-                <p className="text-gray-600 mb-3">User interface and experience design for iOS and Android applications.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦300,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">E-commerce Design</h4>
-                <p className="text-gray-600 mb-3">Online store design with product catalog, shopping cart, and checkout optimization.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦400,000</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Category 3 */}
-          <div className="service-category bg-white rounded-3xl p-8 md:p-12 mb-12 shadow-xl hover:-translate-y-2 transition-transform duration-300">
-            <div className="service-category-header flex flex-col md:flex-row items-center gap-6 mb-10">
-              <div className="service-category-icon w-20 h-20 rounded-full bg-gradient-to-br from-[#0f9b8e] to-[#1dc9b7] flex items-center justify-center text-white text-3xl">
-                <i className="fas fa-bullhorn"></i>
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a2e]">Marketing & Advertising Design</h3>
-            </div>
-            <div className="service-items grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Social Media Graphics Package</h4>
-                <p className="text-gray-600 mb-3">Complete set of social media templates, banners, and content graphics.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦75,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Digital Advertising Design</h4>
-                <p className="text-gray-600 mb-3">Eye-catching banner ads, Google Ads graphics, and social media advertisements.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦60,000</div>
-              </div>
-              <div className="service-item bg-gray-50 p-6 rounded-xl shadow hover:bg-white hover:shadow-xl transition-all duration-300">
-                <h4 className="text-xl font-semibold text-[#16213e] mb-3">Email Marketing Templates</h4>
-                <p className="text-gray-600 mb-3">Responsive email designs that work across all devices and email clients.</p>
-                <div className="service-price text-[#0f9b8e] font-bold">Starting at ₦50,000</div>
-              </div>
-            </div>
-            <div className="explore-button-container text-center">
-              <Link
-                href="/skills"
-                className="btn inline-flex items-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {industrialServices.map((service) => (
+              <div
+                key={service.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col"
               >
-                <i className="fas fa-code"></i> Explore Technology Stacks I Used
-              </Link>
-            </div>
+                <div className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] p-6 text-white">
+                  <div className="flex items-center gap-4">
+                    <i className={`fas ${service.icon} text-3xl`}></i>
+                    <h3 className="text-xl font-bold">{service.title}</h3>
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  <ul className="space-y-2 mb-4 text-sm text-gray-500">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <i className="fas fa-check-circle text-[#0f9b8e] mt-1 text-xs"></i>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href={`/package?service=${encodeURIComponent(service.title)}`}
+                    className="mt-auto w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#1a1a2e] text-white font-semibold rounded-lg hover:bg-[#0f9b8e] transition-colors duration-300 group"
+                  >
+                    Get a quote
+                    <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Design Tools Section */}
-        <section className="design-tools bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white py-24 rounded-3xl mx-5 max-w-7xl lg:mx-auto mb-24 relative overflow-hidden">
-          <div className="absolute w-[400px] h-[400px] bg-white/5 rounded-full -top-40 -right-40"></div>
-          <div className="container mx-auto px-5 max-w-7xl relative z-10">
-            <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-white mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-              Professional Design Tools
-            </h2>
-            <p className="text-center max-w-3xl mx-auto text-white/80 text-lg leading-relaxed mb-16">
-              I leverage industry-leading design tools to create high-quality, professional visual solutions for every project.
-            </p>
-            <div className="tools-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="tool-card bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:-translate-y-3 hover:bg-white/20 transition-all duration-300">
-                <i className="fas fa-paint-brush text-5xl text-[#1dc9b7] mb-5"></i>
-                <h3 className="text-xl font-semibold mb-3">Adobe Creative Suite</h3>
-                <p className="text-white/80 text-sm">Photoshop, Illustrator, InDesign, XD, After Effects for comprehensive design and motion graphics.</p>
+        {/* Training Packages Section */}
+        <section id="training" className="container mx-auto px-5 max-w-7xl mb-24">
+          <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
+            Training Packages
+          </h2>
+          <p className="text-center max-w-3xl mx-auto mb-12 text-gray-600 text-lg leading-relaxed">
+            Structured learning paths with detailed curricula, hands‑on projects, and mentorship.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {trainingPackages.map((pkg) => (
+              <div
+                key={pkg.id}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden border border-gray-100 flex flex-col"
+              >
+                <div className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] p-6 text-white">
+                  <div className="flex items-center gap-4">
+                    <i className={`fas ${pkg.icon} text-3xl`}></i>
+                    <h3 className="text-xl font-bold">{pkg.title}</h3>
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <i className="fas fa-clock"></i>
+                      <span>{pkg.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-1 font-semibold">
+                      <i className="fas fa-tag"></i>
+                      <span>₦{pkg.priceNGN.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 flex-1 flex flex-col">
+                  <p className="text-gray-600 mb-4">{pkg.description}</p>
+
+                  <div className="space-y-4 mb-4 max-h-64 overflow-y-auto pr-1">
+                    {pkg.modules.map((module, idx) => (
+                      <div key={idx} className="border-l-2 border-[#0f9b8e] pl-3">
+                        <h4 className="font-semibold text-[#16213e] text-sm mb-1">{module.name}</h4>
+                        <ul className="space-y-1 text-xs text-gray-500">
+                          {module.topics.map((topic, tidx) => (
+                            <li key={tidx} className="flex items-start gap-1.5">
+                              <i className="fas fa-circle text-[0.3rem] text-[#0f9b8e] mt-1.5"></i>
+                              <span>{topic}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={`/payment?package=${encodeURIComponent(pkg.title)}`}
+                    className="mt-auto w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#1a1a2e] text-white font-semibold rounded-lg hover:bg-[#0f9b8e] transition-colors duration-300 group"
+                  >
+                    Start learning
+                    <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                  </Link>
+                </div>
               </div>
-              <div className="tool-card bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:-translate-y-3 hover:bg-white/20 transition-all duration-300">
-                <i className="fas fa-pencil-ruler text-5xl text-[#1dc9b7] mb-5"></i>
-                <h3 className="text-xl font-semibold mb-3">Figma & Sketch</h3>
-                <p className="text-white/80 text-sm">UI/UX design, prototyping, and collaborative design systems for digital products.</p>
-              </div>
-              <div className="tool-card bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:-translate-y-3 hover:bg-white/20 transition-all duration-300">
-                <i className="fas fa-cube text-5xl text-[#1dc9b7] mb-5"></i>
-                <h3 className="text-xl font-semibold mb-3">3D & Motion Tools</h3>
-                <p className="text-white/80 text-sm">Blender, Cinema 4D for 3D visualization and motion design elements.</p>
-              </div>
-              <div className="tool-card bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/10 hover:-translate-y-3 hover:bg-white/20 transition-all duration-300">
-                <i className="fas fa-video text-5xl text-[#1dc9b7] mb-5"></i>
-                <h3 className="text-xl font-semibold mb-3">Video Editing</h3>
-                <p className="text-white/80 text-sm">Premiere Pro, DaVinci Resolve for professional video editing and post-production.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
         {/* Work Process */}
         <section className="work-process container mx-auto px-5 max-w-7xl mb-24">
           <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-            My Design Process
+            My Learning & Mentorship Process
           </h2>
           <p className="text-center max-w-3xl mx-auto text-gray-600 text-lg mb-16">
-            Every successful project follows a structured process that ensures clarity, collaboration, and exceptional results. Here's how we'll work together to bring your vision to life.
+            Every learning journey follows a structured path that ensures you gain practical skills
+            and confidence. Here's how we'll work together.
           </p>
           <div className="process-steps grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { number: '01', title: 'Discovery & Research', desc: 'We start with in-depth research to understand your business, audience, and market landscape. This phase includes competitor analysis and goal definition.' },
-              { number: '02', title: 'Strategy & Planning', desc: 'Based on research findings, we develop a strategic design plan with clear objectives, timelines, and success metrics for your project.' },
-              { number: '03', title: 'Design & Creation', desc: 'This is where ideas become visuals. I create design concepts, mockups, and prototypes that bring your brand strategy to life.' },
-              { number: '04', title: 'Refinement & Delivery', desc: 'We refine designs based on your feedback, prepare final deliverables, and ensure everything is production-ready for implementation.' },
+              {
+                number: '01',
+                title: 'Discovery & Goal Setting',
+                desc: 'We discuss your current level, career aspirations, and tailor the curriculum to your needs.',
+              },
+              {
+                number: '02',
+                title: 'Structured Learning',
+                desc: 'You follow the module‑by‑module plan with hands‑on exercises, projects, and regular check‑ins.',
+              },
+              {
+                number: '03',
+                title: 'Real‑World Projects',
+                desc: 'Apply your skills to build portfolio‑ready projects that demonstrate your new abilities.',
+              },
+              {
+                number: '04',
+                title: 'Career Support',
+                desc: 'Get help with your CV, portfolio presentation, and interview preparation to land your dream role.',
+              },
             ].map((step, idx) => (
               <div
                 key={idx}
@@ -435,176 +570,45 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Pricing Packages */}
-        <section className="pricing container mx-auto px-5 max-w-7xl mb-24">
-          <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-            Design Packages
+        {/* Packages CTA */}
+        <section className="packages-cta container mx-auto px-5 max-w-7xl mb-24 text-center">
+          <h2 className="section-title text-4xl md:text-5xl font-bold text-center text-[#1a1a2e] mb-8 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
+            Not Sure Which Path to Take?
           </h2>
-          <p className="text-center max-w-3xl mx-auto text-gray-600 text-lg mb-16">
-            Flexible design packages tailored to different business needs. All packages include professional design consultation and project management.
+          <p className="text-center max-w-3xl mx-auto text-gray-600 text-lg mb-12">
+            Book a free 30‑minute consultation. We'll discuss your background and goals, and I'll
+            recommend the perfect learning package for you.
           </p>
-          <div className="pricing-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Corporate Package */}
-            <div className="pricing-card bg-white p-8 rounded-2xl shadow-xl border-2 border-gray-100 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300">
-              <div className="pricing-header text-center mb-6">
-                <h3 className="text-2xl font-bold text-[#16213e] mb-3">Corporate Package</h3>
-                <div className="pricing-price text-4xl font-extrabold text-[#0f9b8e] mb-1">₦250,000+</div>
-                <div className="pricing-period text-gray-500 text-sm">Depend on the project complexity - One-time project fee</div>
-              </div>
-              <ul className="pricing-features space-y-3 mb-6">
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Logo Design (2 concepts)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Brand Guidelines (basic)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Business Card Design</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Letterhead & Envelope</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Social Media Kit (5 graphics)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> 2 Rounds of Revisions</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Corporate Website (basic)</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> Professional Domain Name</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> Packaging Design</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> Mobile App</li>
-              </ul>
-
-              {/* Duration & Agreement */}
-              <div className="mb-6">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-clock text-[#0f9b8e]"></i> Duration</h4>
-                <p className="text-sm text-gray-600">2–3 weeks from deposit</p>
-              </div>
-              <div className="mb-8">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-file-signature text-[#0f9b8e]"></i> Agreement</h4>
-                <ul className="text-xs text-gray-600 space-y-1">
-                  <li>50% deposit, 50% on completion</li>
-                  <li>2 rounds of revisions</li>
-                  <li>Print/digital formats + source files</li>
-                  <li>1 week support</li>
-                </ul>
-              </div>
-
-              <div className="flex gap-3">
-                <Link
-                  href="/payment"
-                  className="flex-1 text-center bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-3 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  Choose Corporate
-                </Link>
-              </div>
-            </div>
-
-            {/* Professional Package (featured) */}
-            <div className="pricing-card bg-white p-8 rounded-2xl shadow-xl border-2 border-[#0f9b8e] relative hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 scale-105 lg:scale-110">
-              <div className="pricing-badge absolute top-5 right-5 bg-[#0f9b8e] text-white px-3 py-1 text-xs font-semibold rounded-full rotate-12">
-                Most Popular
-              </div>
-              <div className="pricing-header text-center mb-6">
-                <h3 className="text-2xl font-bold text-[#16213e] mb-3">Professional Package</h3>
-                <div className="pricing-price text-4xl font-extrabold text-[#0f9b8e] mb-1">₦800,000+</div>
-                <div className="pricing-period text-gray-500 text-sm">Depend on the project complexity - Complete brand system</div>
-              </div>
-              <ul className="pricing-features space-y-3 mb-6">
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Complete Brand Identity</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Logo + Submarks + Variations</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Comprehensive Brand Guidelines</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Business Stationery Set</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Social Media Kit (15 graphics)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Marketing Collateral (brochure/flyer)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Email Marketing Template</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Basic Website Design (5 pages)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> 5 Rounds of Revisions</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Color Palette & Typography System</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> Custom Domain Name</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> E‑commerce Functionality</li>
-                <li className="flex items-center gap-2 text-gray-400"><i className="fas fa-times text-gray-400 w-5"></i> Mobile App</li>
-              </ul>
-
-              {/* Duration & Agreement */}
-              <div className="mb-6">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-clock text-[#0f9b8e]"></i> Duration</h4>
-                <p className="text-sm text-gray-600">4–6 weeks depending on feedback</p>
-              </div>
-              <div className="mb-8">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-file-signature text-[#0f9b8e]"></i> Agreement</h4>
-                <ul className="text-xs text-gray-600 space-y-1">
-                  <li>40% deposit, 30% midpoint, 30% final</li>
-                  <li>5 rounds of revisions</li>
-                  <li>All formats + editable source files</li>
-                  <li>1 month support & training</li>
-                </ul>
-              </div>
-
-              <div className="flex gap-3">
-                <Link
-                  href="/payment"
-                  className="flex-1 text-center bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-3 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  Choose Professional
-                </Link>
-              </div>
-            </div>
-
-            {/* Enterprise Package */}
-            <div className="pricing-card bg-white p-8 rounded-2xl shadow-xl border-2 border-gray-100 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300">
-              <div className="pricing-header text-center mb-6">
-                <h3 className="text-2xl font-bold text-[#16213e] mb-3">Enterprise Package</h3>
-                <div className="pricing-price text-4xl font-extrabold text-[#0f9b8e] mb-1">₦1,500,000+</div>
-                <div className="pricing-period text-gray-500 text-sm">Depend on the  complexity - Custom project-based pricing</div>
-              </div>
-              <ul className="pricing-features space-y-3 mb-6">
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Everything in Professional</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Custom Website Development (full)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Product Packaging Design</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> E‑commerce Design & Development</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Mobile Application</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Digital Advertising Campaign</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Email Marketing Suite (5 templates)</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Unlimited Revisions</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> 3 Months Support & Maintenance</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Brand Training Session</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Custom Domain Name & Hosting</li>
-                <li className="flex items-center gap-2 text-gray-600"><i className="fas fa-check text-[#0f9b8e] w-5"></i> Premium Stock Photos</li>
-              </ul>
-
-              {/* Duration & Agreement */}
-              <div className="mb-6">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-clock text-[#0f9b8e]"></i> Duration</h4>
-                <p className="text-sm text-gray-600">8–12 weeks (adjustable by scope)</p>
-              </div>
-              <div className="mb-8">
-                <h4 className="text-md font-semibold text-[#16213e] mb-2 flex items-center gap-2"><i className="fas fa-file-signature text-[#0f9b8e]"></i> Agreement</h4>
-                <ul className="text-xs text-gray-600 space-y-1">
-                  <li>Custom payment schedule</li>
-                  <li>Unlimited revisions</li>
-                  <li>All source files + documentation</li>
-                  <li>3 months priority support</li>
-                </ul>
-              </div>
-
-              <div className="flex gap-3">
-                <Link
-                  href="/payment"
-                  className="flex-1 text-center bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-3 py-2 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  Choose Enterprise
-                </Link>
-              </div>
-            </div>
-          </div>
-          <p className="text-center mt-12 text-gray-600">
-            Need a custom solution? <Link href="/contact" className="text-[#0f9b8e] font-semibold hover:underline">Contact me</Link> for a personalized quote based on your specific requirements.
-          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-3 px-12 py-5 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-bold text-xl rounded-full shadow-2xl hover:shadow-3xl hover:-translate-y-1 transition-all duration-300"
+          >
+            <i className="fas fa-calendar-check"></i> Schedule a Free Call
+          </Link>
         </section>
 
         {/* Services CTA */}
-        <section className="services-cta bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white py-24 rounded-t-3xl relative overflow-hidden">
+        <section className="services-cta bg-linear-to-br from-[#1a1a2e] to-[#16213e] text-white py-24 rounded-t-3xl relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48cGF0aCBkPSJNMCwwIEwxMDAsMCBMMTAwLDEwMCBaIiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIi8+PC9zdmc+')] bg-cover"></div>
           <div className="container mx-auto px-5 max-w-4xl text-center relative z-10">
-            <h3 className="text-4xl md:text-5xl font-bold mb-6 font-['Montserrat']">Ready to Transform Your Brand?</h3>
+            <h3 className="text-4xl md:text-5xl font-bold mb-6 font-['Montserrat']">
+              Ready to Start Your Learning Journey?
+            </h3>
             <p className="text-xl text-white/90 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Let's collaborate to create a powerful visual identity that communicates your unique value, connects with your audience, and drives business growth. Schedule a free design consultation today.
+              Whether you want to become a mobile engineer or a brand designer, I'm here to guide
+              you step by step. Let's build your future together.
             </p>
             <div className="flex gap-6 justify-center flex-wrap">
-              <Link href="/portfolio" className="btn inline-flex items-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <i className="fas fa-eye"></i> View My Work
+              <Link
+                href="/portfolio"
+                className="btn inline-flex items-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <i className="fas fa-eye"></i> View Student Work
               </Link>
-              <Link href="/contact" className="btn-outline inline-flex items-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300">
+              <Link
+                href="/contact"
+                className="btn-outline inline-flex items-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300"
+              >
                 <i className="fas fa-calendar-check"></i> Book Free Consultation
               </Link>
             </div>
@@ -614,24 +618,22 @@ export default function ServicesPage() {
 
       {/* Footer */}
       <footer className="bg-[#1a1a2e] text-white pt-16 pb-6 relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover"
-          style={{
-            backgroundImage: `url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48cGF0aCBkPSJNMCwwIEwxMDAsMCBMMTAwLDEwMCBaIiBmaWxsPSIjMGY5YjhlIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz48L3N2Zz4=')`,
-          }}
-        ></div>
+        <div className="absolute inset-0 bg-cover footer-pattern"></div>
         <div className="container mx-auto px-5 max-w-7xl relative z-10">
           <div className="footer-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
             <div className="footer-column">
               <h3 className="text-2xl font-semibold mb-6 text-[#1dc9b7]">Rabiu Sani Muhammad</h3>
               <p className="text-gray-300 mb-5 leading-relaxed">
-                Professional Full Brand Designer specializing in comprehensive visual identity systems, UI/UX design, and strategic brand development for businesses of all sizes.
+                Mobile Software Engineer & Visual Brand System Designer. I also mentor aspiring
+                developers and designers through structured career packages.
               </p>
               <div className="social-links flex gap-4">
                 {['behance', 'dribbble', 'linkedin-in', 'instagram', 'twitter'].map((social) => (
                   <a
                     key={social}
                     href="#"
+                    title={`Visit ${social}`}
+                    aria-label={`Visit ${social}`}
                     className="flex items-center justify-center w-11 h-11 bg-white/10 rounded-full text-white border border-white/20 transition hover:bg-[#1dc9b7] hover:-translate-y-1 hover:scale-110"
                   >
                     <i className={`fab fa-${social}`}></i>
@@ -678,14 +680,17 @@ export default function ServicesPage() {
                 </li>
                 <li>
                   <a href="#" className="text-gray-300 hover:text-[#1dc9b7] flex items-center gap-2">
-                    <i className="fas fa-globe w-5"></i> Available for International Projects
+                    <i className="fas fa-globe w-5"></i> Available for International Students
                   </a>
                 </li>
               </ul>
             </div>
           </div>
           <div className="copyright text-center pt-8 border-t border-white/20 text-gray-400 text-sm">
-            <p>&copy; 2026 Rabiu Sani Muhammad (Aljauromanee). All Rights Reserved. | Professional Brand Design Portfolio</p>
+            <p>
+              &copy; 2026 Rabiu Sani Muhammad (Aljauromanee). All Rights Reserved. | Mentorship &
+              Training Portfolio
+            </p>
           </div>
         </div>
       </footer>

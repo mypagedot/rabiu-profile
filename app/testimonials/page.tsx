@@ -1,20 +1,13 @@
+// app/my-clients-testimonials/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // using Next.js Image for optimization
 
-export default function AboutPage() {
+export default function MyClientsTestimonialsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0); // slideshow state
-
-  // Slideshow images
-  const slideImages = [
-    '/assets/images/Rabiuuuu.jpeg',
-    '/assets/images/mobile-2.jpg',
-    '/assets/images/mobile-app.jpg',
-    '/assets/images/rsmm.jpeg',
-  ];
 
   // Handle scroll effect for header
   useEffect(() => {
@@ -24,19 +17,6 @@ export default function AboutPage() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Slideshow effect – starts after 0.1 second, then cycles every 3 seconds
-  useEffect(() => {
-    const SLIDE_INTERVAL = 3000;
-    const timeoutId = setTimeout(() => {
-      const intervalId = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slideImages.length);
-      }, SLIDE_INTERVAL);
-      return () => clearInterval(intervalId);
-    }, 100);
-
-    return () => clearTimeout(timeoutId);
-  }, [slideImages.length]);
 
   // Mobile menu toggle
   const toggleMenu = () => {
@@ -49,7 +29,7 @@ export default function AboutPage() {
     document.body.style.overflow = 'auto';
   };
 
-  // Timeline intersection observer
+  // Timeline intersection observer for fade-in effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -67,43 +47,61 @@ export default function AboutPage() {
     return () => observer.disconnect();
   }, []);
 
-  // Timeline data with explicit side assignment
-  const timelineItems = [
+  // Testimonial data with actual image paths
+  const testimonials = [
     {
-      year: '2019',
-      title: 'Graphics Designer',
-      desc: 'Created brand identities, logos, and marketing materials for local startups. Developed a keen eye for typography, color theory, and composition while collaborating with printers and digital teams.',
-      side: 'right', // on the right side
+      quote: "Rabiu doesn't just design an app — he designs the entire brand around it. His ability to switch from mobile architecture to visual identity is rare and invaluable.",
+      name: 'Aisha Mohammed',
+      title: 'Software Programmer',
+      location: 'Lagos',
+      image: '/assets/images/man-icon.webp', // Replace with actual image
+      side: 'right', // first item on right
     },
     {
-      year: '2021',
-      title: 'FrontEnd Developer & Graphics Designer',
-      desc: 'Translated static designs into responsive websites using HTML, CSS, JavaScript. Maintained visual consistency while adding interactivity; learned to bridge design and code.',
-      side: 'left', // moved to left as requested
+      quote: "We hired him for a mobile app, but we got a complete visual system that unified our entire brand. The consistency across platforms doubled our engagement.",
+      name: 'Sani M.R',
+      title: 'CEO, Softie hub',
+      location: 'Nigeria',
+      image: '/assets/images/man-icon.webp',
+      side: 'left',
     },
     {
-      year: '2023',
-      title: 'FrontEnd Developer & Visual brand system Designer',
-      desc: 'Built component libraries and design systems for web apps. Standardised UI elements, documented brand guidelines, and ensured seamless handoff between design and development.',
+      quote: "As a developer who thinks like a designer, he bridges the gap perfectly. Our team finally speaks the same language — engineering and brand live in harmony.",
+      name: 'Prince',
+      title: 'CEO, Pi Technology',
+      location: 'Nigeria',
+      image: '/assets/images/Pi-tech.jpeg',
       side: 'right',
     },
     {
-      year: '2024',
-      title: 'Web developer & Full Stack UI/UX Designer',
-      desc: 'Designed end-to-end user experiences, from wireframes to high-fidelity prototypes. Implemented frontend interfaces and basic backend logic, delivering complete web solutions.',
-      side: 'left', // moved to left as requested
+      quote: "Working with Rabiu transformed our startup. He created a brand identity that resonates with our audience and a mobile app that just works. Highly recommended.",
+      name: 'Nasir A. Abdullahi',
+      title: 'Director, Halal Promotion Foundation',
+      location: 'Abuja',
+      image: '/assets/images/ustazh-nasir.jpeg',
+      side: 'left',
     },
     {
-      year: 'Present',
-      title: 'Mobile software engineer & visual brand system designer',
-      desc: 'Independent consultant: architecting mobile apps (Flutter, React Native) while building holistic brand systems for international clients. Two disciplines finally speak one language.',
+      quote: "His design system brought consistency across all our products. The development team now builds faster with fewer revisions. A true multiplier.",
+      name: 'James Carter',
+      title: 'CTO, FinServe',
+      location: 'London',
+      image: '/assets/images/man-icon.webp',
       side: 'right',
+    },
+    {
+      quote: "Rabiu has an eye for detail that’s rare. He listened to our vision and delivered a brand and app that exceeded our expectations.",
+      name: 'Al-Amin Ibrahim',
+      title: 'Product-Focused, Software Developer',
+      location: 'Nigeria',
+      image: '/assets/images/man-icon.webp',
+      side: 'left',
     },
   ];
 
   return (
     <>
-      {/* Header */}
+      {/* Header (identical to About page) */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -120,7 +118,7 @@ export default function AboutPage() {
             {/* Desktop Navigation */}
             <ul className="hidden md:flex items-center space-x-2 lg:space-x-5">
               <li><Link href="/" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Home</Link></li>
-              <li><Link href="/about" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%] active:after:w-[70%] active:text-[#1dc9b7]">About</Link></li>
+              <li><Link href="/about" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">About</Link></li>
               <li><Link href="/portfolio" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Portfolio</Link></li>
               <li><Link href="/services" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Services</Link></li>
               <li><Link href="/skills" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Skills</Link></li>
@@ -158,7 +156,6 @@ export default function AboutPage() {
         </div>
       </header>
 
-      {/* Main content – top padding removed to eliminate gap with navbar */}
       <main className="pt-0">
         {/* Page Hero */}
         <section
@@ -168,81 +165,34 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e]/90 to-[#16213e]/90"></div>
           <div className="container mx-auto px-6 relative z-10 text-white">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat mb-4 drop-shadow-lg">
-              The Mobile software engineer & visual brand system designer
+              What My Clients Say
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto text-white/90 drop-shadow">
-              I craft fluid mobile experiences & cohesive brand identities — where code meets storytelling.
+              Real feedback from the people I've had the pleasure to work with.
             </p>
           </div>
         </section>
 
-        {/* Introduction Section with Slideshow */}
-        <section className="container mx-auto px-6 py-20">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0">
-                I'm Rabiu Sani Muhammad (Aljauromanee)
-              </h2>
-              <p className="text-gray-700 text-lg mb-4 leading-relaxed">
-                My journey began with a fascination for how things work — both in code and in visual communication. With a degree in Software Engineering and a natural eye for design, I've spent the last 7+ years bridging the gap between technical functionality and aesthetic excellence.
-              </p>
-              <p className="text-gray-700 text-lg mb-4 leading-relaxed">
-                Based in Abuja, Nigeria, I've had the privilege of working with clients across Africa, Europe, and the Middle East. My work ranges from crafting minimalist brand identities to architecting complex mobile applications. I believe that great design is invisible — it feels intuitive, works flawlessly, and leaves a lasting impression.
-              </p>
-              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-                Today, I lead brand and product design projects that help startups and established businesses tell their stories authentically and connect with their audiences on a deeper level.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {['Mobile-first thinker', 'Design system architect', 'Hybrid engineer', 'Brand strategist'].map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-[#0f9b8e]/10 text-[#0f9b8e] px-4 py-2 rounded-full text-sm font-medium border border-[#0f9b8e]/20"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Slideshow container */}
-            <div className="relative group w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-              {slideImages.map((src, index) => (
-                <div
-                  key={src}
-                  className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <img
-                    src={src}
-                    alt={`Slide ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#0f9b8e]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-            </div>
-          </div>
-        </section>
-
-        {/* Timeline Section with Background Image and Glass Effect */}
+        {/* Testimonials Timeline with Glass Cards */}
         <section className="relative py-20 overflow-hidden">
           {/* Background Image with Overlay */}
           <div className="absolute inset-0">
             <div
-              className="absolute inset-0 bg-cover bg-center bg-fixed timeline-bg"
+              className="absolute inset-0 bg-cover bg-center bg-fixed"
+              style={{ backgroundImage: 'url(/assets/images/cta5.png)' }} // Replace with your image
             ></div>
-            <div className="absolute inset-0 bg-black/40"></div> {/* Dark overlay for contrast */}
+            <div className="absolute inset-0 bg-black/40"></div>
           </div>
 
           <div className="container mx-auto px-6 relative z-10">
-            <h2 className="section-title text-3xl md:text-4xl font-bold text-center text-white mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
-              MY DESIGN AND DEVELOPMENT JOURNEY
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
+              Client Testimonials
             </h2>
 
+            {/* Timeline container with central line */}
             <div className="timeline relative before:content-[''] before:absolute before:left-5 md:before:left-1/2 before:top-0 before:bottom-0 before:w-1 before:bg-gradient-to-b before:from-[#1dc9b7] before:to-[#0f9b8e] before:rounded">
-              {timelineItems.map((item, index) => {
-                const isLeft = item.side === 'left';
+              {testimonials.map((testimonial, index) => {
+                const isLeft = testimonial.side === 'left';
                 return (
                   <div
                     key={index}
@@ -252,33 +202,46 @@ export default function AboutPage() {
                         : 'md:ml-auto md:pr-12 md:translate-x-8'
                     }`}
                   >
+                    {/* Timeline dot */}
                     <div
                       className={`timeline-dot absolute left-5 md:left-auto top-2 w-5 h-5 bg-white border-4 border-[#0f9b8e] rounded-full shadow-[0_0_0_4px_rgba(15,155,142,0.2)] transition-all duration-300 ${
                         isLeft ? 'md:left-[-10px] md:right-auto' : 'md:right-[-10px] md:left-auto'
                       }`}
                     ></div>
+
+                    {/* Testimonial Card */}
                     <div className="timeline-content bg-white/20 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-lg border border-white/20 hover:bg-white/30 hover:border-[#1dc9b7] transition-all duration-300">
-                      <span className="inline-block bg-[#0f9b8e]/30 text-white px-4 py-1 rounded-full text-sm font-semibold mb-3">
-                        {item.year}
-                      </span>
-                      <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
-                      <p className="text-white/90 leading-relaxed">{item.desc}</p>
+                      <i className="fas fa-quote-right text-3xl text-[#1dc9b7] opacity-50 mb-4"></i>
+                      <p className="text-white/90 mb-6 leading-relaxed">{testimonial.quote}</p>
+
+                      {/* Client info with image */}
+                      <div className="flex items-center gap-4 pt-4 border-t border-white/20">
+                        <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#1dc9b7] shadow-md">
+                          {/* Using next/image for optimized images */}
+                          <Image
+                            src={testimonial.image}
+                            alt={testimonial.name}
+                            width={56}
+                            height={56}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-white flex items-center gap-2 flex-wrap">
+                            {testimonial.name}
+                            <span className="text-xs bg-white/20 text-[#1dc9b7] px-2 py-0.5 rounded-full uppercase">
+                              {testimonial.location}
+                            </span>
+                          </h4>
+                          <span className="text-sm text-white/70">{testimonial.title}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-        </section>
-
-        {/* View Testimonials Button */}
-        <section className="container mx-auto px-6 py-20 text-center">
-          <Link
-            href="/testimonials"
-            className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-10 py-5 rounded-full font-semibold text-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center gap-3"
-          >
-            <i className="fas fa-comment-dots"></i> View My Clients' Testimonials
-          </Link>
         </section>
 
         {/* CTA Section */}
@@ -288,13 +251,13 @@ export default function AboutPage() {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e]/90 to-[#16213e]/90"></div>
           <div className="container mx-auto px-6 text-center relative z-10 text-white">
-            <h3 className="text-3xl md:text-4xl font-bold mb-6">Let's Create Something Extraordinary</h3>
+            <h3 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Project?</h3>
             <p className="text-xl text-white/90 max-w-2xl mx-auto mb-10">
-              Whether you need a complete brand overhaul, a stunning mobile app, or just a creative partner to bounce ideas — I'm here to help.
+              Join these happy clients and let's create something remarkable together.
             </p>
             <Link
               href="/contact"
-              className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center gap-2"
+              className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 inline-flex items-center gap-2"
             >
               <i className="fas fa-paper-plane"></i> Start a Conversation
             </Link>
@@ -302,7 +265,7 @@ export default function AboutPage() {
         </section>
       </main>
 
-      {/* Footer */}
+      {/* Footer (identical to About page) */}
       <footer className="bg-[#1a1a2e] text-white pt-16 pb-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-[length:30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
@@ -363,7 +326,7 @@ export default function AboutPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
+                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
                     <i className="fas fa-globe w-5"></i> Available for International Projects
                   </a>
                 </li>
@@ -397,9 +360,6 @@ export default function AboutPage() {
           .timeline-item.visible {
             transform: translateX(0) !important;
           }
-        }
-        .timeline-bg {
-          background-image: url(/assets/images/softie-bg.jpg);
         }
       `}</style>
     </>

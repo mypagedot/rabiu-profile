@@ -7,6 +7,13 @@ export default function SkillsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Helper function to get proficiency label based on level
+  const getProficiencyLabel = (level: number): string => {
+    if (level <= 45) return 'Beginner';
+    if (level <= 75) return 'Intermediate';
+    return 'Advanced';
+  };
+
   // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
@@ -147,7 +154,7 @@ export default function SkillsPage() {
         </div>
       </header>
 
-      <main className="pt-20">
+      <main className="pt-0">
         {/* Hero Section */}
         <section
           className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed"
@@ -194,6 +201,9 @@ export default function SkillsPage() {
               { icon: 'fa-code', title: 'Frontend Development', desc: 'Building responsive interfaces with modern HTML, CSS, JavaScript, and frameworks.' },
               { icon: 'fa-server', title: 'Backend Development', desc: 'Server‑side logic, APIs, and robust architecture for scalable applications.' },
               { icon: 'fa-mobile-alt', title: 'Mobile Development', desc: 'Cross‑platform apps for iOS and Android with React Native and Flutter.' },
+              // New cards added below
+              { icon: 'fa-paint-brush', title: 'Visual Brand System Design', desc: 'Comprehensive brand identities, color systems, typography, and visual language.' },
+              { icon: 'fa-mouse-pointer', title: 'UI/UX Design', desc: 'User‑centered interface design, wireframing, prototyping, and usability testing.' },
             ].map((item, idx) => (
               <div
                 key={idx}
@@ -229,13 +239,13 @@ export default function SkillsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: 'fab fa-html5', name: 'HTML5', desc: 'Semantic markup and modern features.', level: 95, text: 'Advanced' },
-                { icon: 'fab fa-css3-alt', name: 'CSS3', desc: 'Animations, flex/grid, responsive.', level: 90, text: 'Advanced' },
-                { icon: 'fab fa-js-square', name: 'JavaScript', desc: 'ES6+, async, DOM manipulation.', level: 85, text: 'Advanced' },
-                { icon: 'fab fa-react', name: 'React.js', desc: 'Component‑based UI.', level: 75, text: 'Intermediate' },
-                { icon: 'fab fa-bootstrap', name: 'Bootstrap', desc: 'Rapid prototyping.', level: 85, text: 'Advanced' },
-                { icon: 'fas fa-wind', name: 'Tailwind CSS', desc: 'Utility‑first.', level: 90, text: 'Advanced' },
-                { icon: 'fab fa-wordpress', name: 'WordPress', desc: 'CMS & themes.', level: 80, text: 'Advanced' },
+                { icon: 'fab fa-html5', name: 'HTML5', desc: 'Semantic markup and modern features.', level: 95 },
+                { icon: 'fab fa-css3-alt', name: 'CSS3', desc: 'Animations, flex/grid, responsive.', level: 90 },
+                { icon: 'fab fa-js-square', name: 'JavaScript', desc: 'ES6+, async, DOM manipulation.', level: 85 },
+                { icon: 'fab fa-react', name: 'React.js', desc: 'Component‑based UI.', level: 75 },
+                { icon: 'fab fa-bootstrap', name: 'Bootstrap', desc: 'Rapid prototyping.', level: 85 },
+                { icon: 'fas fa-wind', name: 'Tailwind CSS', desc: 'Utility‑first.', level: 90 },
+                { icon: 'fab fa-wordpress', name: 'WordPress', desc: 'CMS & themes.', level: 80 },
               ].map((tool, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center">
                   <div className="w-16 h-16 mx-auto bg-[#0f9b8e]/10 rounded-full flex items-center justify-center text-3xl text-[#0f9b8e] mb-4">
@@ -247,7 +257,7 @@ export default function SkillsPage() {
                     <div className="h-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7]" style={{ width: `${tool.level}%` }}></div>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="font-semibold text-[#0f9b8e]">{tool.text}</span>
+                    <span className="font-semibold text-[#0f9b8e]">{getProficiencyLabel(tool.level)}</span>
                     <span className="text-gray-600">{tool.level}%</span>
                   </div>
                 </div>
@@ -269,10 +279,10 @@ export default function SkillsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: 'fab fa-node-js', name: 'Node.js', desc: 'JavaScript runtime.', level: 70, text: 'Intermediate' },
-                { icon: 'fab fa-php', name: 'PHP', desc: 'Scripting.', level: 65, text: 'Intermediate' },
-                { icon: 'fas fa-laravel', name: 'Laravel', desc: 'PHP framework.', level: 70, text: 'Intermediate' },
-                { icon: 'fas fa-forward', name: 'Next.js', desc: 'React framework.', level: 75, text: 'Intermediate' },
+                { icon: 'fab fa-node-js', name: 'Node.js', desc: 'JavaScript runtime.', level: 70 },
+                { icon: 'fab fa-php', name: 'PHP', desc: 'Scripting.', level: 65 },
+                { icon: 'fas fa-laravel', name: 'Laravel', desc: 'PHP framework.', level: 70 },
+                { icon: 'fas fa-forward', name: 'Next.js', desc: 'React framework.', level: 75 },
               ].map((tool, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center">
                   <div className="w-16 h-16 mx-auto bg-[#0f9b8e]/10 rounded-full flex items-center justify-center text-3xl text-[#0f9b8e] mb-4">
@@ -284,7 +294,7 @@ export default function SkillsPage() {
                     <div className="h-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7]" style={{ width: `${tool.level}%` }}></div>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="font-semibold text-[#0f9b8e]">{tool.text}</span>
+                    <span className="font-semibold text-[#0f9b8e]">{getProficiencyLabel(tool.level)}</span>
                     <span className="text-gray-600">{tool.level}%</span>
                   </div>
                 </div>
@@ -306,10 +316,10 @@ export default function SkillsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: 'fab fa-react', name: 'React Native', desc: 'Cross‑platform mobile apps with native performance.', level: 70, text: 'Intermediate' },
-                { icon: 'fab fa-flutter', name: 'Flutter', desc: 'UI toolkit for natively compiled applications.', level: 65, text: 'Intermediate' },
-                { icon: 'fas fa-code', name: 'Swift', desc: 'iOS native development.', level: 50, text: 'Beginner' },
-                { icon: 'fab fa-android', name: 'Kotlin', desc: 'Android native development.', level: 45, text: 'Beginner' },
+                { icon: 'fab fa-react', name: 'React Native', desc: 'Cross‑platform mobile apps with native performance.', level: 70 },
+                { icon: 'fab fa-flutter', name: 'Flutter', desc: 'UI toolkit for natively compiled applications.', level: 65 },
+                { icon: 'fas fa-code', name: 'Swift', desc: 'iOS native development.', level: 50 },
+                { icon: 'fab fa-android', name: 'Kotlin', desc: 'Android native development.', level: 45 },
               ].map((tool, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center">
                   <div className="w-16 h-16 mx-auto bg-[#0f9b8e]/10 rounded-full flex items-center justify-center text-3xl text-[#0f9b8e] mb-4">
@@ -321,7 +331,7 @@ export default function SkillsPage() {
                     <div className="h-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7]" style={{ width: `${tool.level}%` }}></div>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="font-semibold text-[#0f9b8e]">{tool.text}</span>
+                    <span className="font-semibold text-[#0f9b8e]">{getProficiencyLabel(tool.level)}</span>
                     <span className="text-gray-600">{tool.level}%</span>
                   </div>
                 </div>
@@ -343,13 +353,15 @@ export default function SkillsPage() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { icon: 'fab fa-git-alt', name: 'Git', desc: 'Version control.', level: 90, text: 'Advanced' },
-                { icon: 'fas fa-code', name: 'VS Code', desc: 'Editor.', level: 95, text: 'Advanced' },
-                { icon: 'fas fa-robot', name: 'Cursor AI', desc: 'AI coding.', level: 80, text: 'Intermediate' },
-                { icon: 'fas fa-paint-brush', name: 'Canva', desc: 'Graphic design.', level: 85, text: 'Advanced' },
-                { icon: 'fas fa-pen-nib', name: 'CorelDraw', desc: 'Vector graphics.', level: 75, text: 'Advanced' },
-                { icon: 'fas fa-laravel', name: 'Photoshop', desc: 'Image editing.', level: 75, text: 'Intermediate' },
-                { icon: 'fab fa-figma', name: 'Figma', desc: 'Prototyping.', level: 70, text: 'Intermediate' },
+                { icon: 'fab fa-git-alt', name: 'Git', desc: 'Version control.', level: 90 },
+                { icon: 'fas fa-code', name: 'VS Code', desc: 'Editor.', level: 95 },
+                { icon: 'fas fa-robot', name: 'Cursor AI', desc: 'AI coding.', level: 80 },
+                { icon: 'fas fa-paint-brush', name: 'Canva', desc: 'Graphic design.', level: 85 },
+                { icon: 'fas fa-pen-nib', name: 'CorelDraw', desc: 'Vector graphics.', level: 75 },
+                { icon: 'fas fa-laravel', name: 'Photoshop', desc: 'Image editing.', level: 75 },
+                { icon: 'fab fa-figma', name: 'Figma', desc: 'Prototyping.', level: 70 },
+                // New Antigravity card added below
+                { icon: 'fa-rocket', name: 'Antigravity', desc: 'Next‑gen design & development tool.', level: 70 },
               ].map((tool, idx) => (
                 <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center">
                   <div className="w-16 h-16 mx-auto bg-[#0f9b8e]/10 rounded-full flex items-center justify-center text-3xl text-[#0f9b8e] mb-4">
@@ -361,7 +373,7 @@ export default function SkillsPage() {
                     <div className="h-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7]" style={{ width: `${tool.level}%` }}></div>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="font-semibold text-[#0f9b8e]">{tool.text}</span>
+                    <span className="font-semibold text-[#0f9b8e]">{getProficiencyLabel(tool.level)}</span>
                     <span className="text-gray-600">{tool.level}%</span>
                   </div>
                 </div>
@@ -392,30 +404,6 @@ export default function SkillsPage() {
                   <p className="text-gray-600 text-sm">{step.desc}</p>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Integration Section */}
-        <section className="container mx-auto px-6 py-20">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1">
-              <h3 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6">Seamless Tool Integration</h3>
-              <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                All cards are now solid white with subtle shadows — a clean, globally inspired design language.
-              </p>
-              <Link href="/contact" className="btn-primary inline-flex items-center gap-2 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <i className="fas fa-comments"></i> Discuss Your Project
-              </Link>
-            </div>
-            <div className="flex-1 bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-2xl p-12 flex items-center justify-center min-h-[300px]">
-              <div className="grid grid-cols-3 gap-6">
-                {['fab fa-react', 'fab fa-js-square', 'fab fa-html5', 'fab fa-css3-alt', 'fab fa-figma', 'fab fa-wordpress'].map((icon, idx) => (
-                  <div key={idx} className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center text-3xl text-white hover:scale-110 transition-transform border border-white/20">
-                    <i className={icon}></i>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>

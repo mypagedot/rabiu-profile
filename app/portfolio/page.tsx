@@ -8,7 +8,6 @@ import Image from 'next/image';
 export default function PortfolioPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
   const headerRef = useRef<HTMLElement>(null);
 
   // All image paths now start with a leading slash – required for Next.js public folder
@@ -25,7 +24,7 @@ export default function PortfolioPage() {
         { icon: 'fa-tasks', label: '12 Deliverables' },
         { icon: 'fa-chart-line', label: '+40% Brand Recognition' },
       ],
-      detailsLink: '/ecofresh',
+      detailsLink: '/eco fresh',
       caseStudyLink: '/contact?project=EcoFresh',
     },
     {
@@ -40,14 +39,14 @@ export default function PortfolioPage() {
         { icon: 'fa-mobile-alt', label: '45+ Screens' },
         { icon: 'fa-chart-line', label: '+35% User Retention' },
       ],
-      detailsLink: '/project-fintech',
+      detailsLink: '/project-fin-tech.com',
       caseStudyLink: '/contact?project=FinTech',
     },
     {
       id: 3,
       title: 'Corporate Branding Package',
       category: 'print',
-      image: '/assets/images/ecofresh-ide.jpg',
+      image: '/assets/images/eco-fresh-ide.jpg',
       description:
         'Complete corporate identity package including business cards, letterheads, envelopes, and presentation folders for a multinational consulting firm.',
       stats: [
@@ -107,31 +106,6 @@ export default function PortfolioPage() {
     },
   ];
 
-  // Testimonials data – paths with leading slash
-  const testimonials = [
-    {
-      content:
-        "Rabiu transformed our brand from a local business to a nationally recognized name. His strategic approach to design not only improved our visual identity but also our market position. The results exceeded our expectations.",
-      name: 'Prince',
-      role: 'CEO, Pi Technology',
-      avatar: '/assets/images/Pi tech.jpeg',
-    },
-    {
-      content:
-        "The UI/UX design for our banking app was exceptional. Rabiu's understanding of user behavior and attention to detail resulted in an intuitive interface that our customers love. User retention increased by 35% after launch.",
-      name: 'Al-Amin Ibrahim',
-      role: 'Product Manager, FinTech Solutions',
-      avatar: '/assets/images/man icon.webp',
-    },
-    {
-      content:
-        "Working with Rabiu on our corporate branding was a game-changer. He delivered a comprehensive identity system that perfectly represents our company values and has been instrumental in our international expansion.",
-      name: 'Usman Madani',
-      role: 'CEO, Zanna technology',
-      avatar: '/assets/images/us madani.jpeg',
-    },
-  ];
-
   const filters = [
     { value: 'all', label: 'All Projects' },
     { value: 'branding', label: 'Brand Identity' },
@@ -177,35 +151,35 @@ export default function PortfolioPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-    // Smooth scroll for anchor links
-useEffect(() => {
-  const handleAnchorClick = (e: Event) => {
-    const target = e.currentTarget as HTMLAnchorElement;
+  // Smooth scroll for anchor links
+  useEffect(() => {
+    const handleAnchorClick = (e: Event) => {
+      const target = e.currentTarget as HTMLAnchorElement;
 
-    if (target.hash && target.hash.startsWith('#') && target.hash.length > 1) {
-      e.preventDefault();
+      if (target.hash && target.hash.startsWith('#') && target.hash.length > 1) {
+        e.preventDefault();
 
-      const element = document.querySelector(target.hash);
+        const element = document.querySelector(target.hash);
 
-      if (element) {
-        window.scrollTo({
-          top: element.getBoundingClientRect().top + window.scrollY - 80,
-          behavior: 'smooth',
-        });
+        if (element) {
+          window.scrollTo({
+            top: element.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: 'smooth',
+          });
+        }
       }
-    }
-  };
+    };
 
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener('click', handleAnchorClick);
-  });
-
-  return () => {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.removeEventListener('click', handleAnchorClick);
+      anchor.addEventListener('click', handleAnchorClick);
     });
-  };
-}, []);
+
+    return () => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.removeEventListener('click', handleAnchorClick);
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -342,47 +316,48 @@ useEffect(() => {
         </div>
       </header>
 
-    {/* Portfolio Hero */}
-<section
-  className="relative bg-gradient-to-br from-[#1a1a2e]/92 to-[#16213e]/88 bg-cover bg-center bg-fixed text-white py-32 md:py-40 mb-20 overflow-hidden"
-  style={{ backgroundImage: "url('/assets/images/hero-bg-img.jpg')" }}
->
-  {/* Dark overlay for contrast */}
-  <div className="absolute inset-0 bg-black/50"></div>
-  {/* Optional decorative gradient (kept for aesthetics) */}
-  <div className="absolute inset-0 featured-case-bg"></div>
-  <div className="container max-w-7xl mx-auto px-5 relative z-10 text-center">
-    <div className="max-w-3xl mx-auto">
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat',sans-serif] uppercase tracking-wide drop-shadow-lg">
-        My{' '}
-        <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0 after:rounded">
-          Design Portfolio
-        </span>{' '}
-        & Case Studies
-      </h1>
-      <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
-        Explore a curated collection of my brand design, UI/UX, and visual
-        identity projects. Each case study showcases strategic design
-        solutions that have delivered measurable results for clients across
-        various industries.
-      </p>
-      <div className="flex gap-5 justify-center flex-wrap">
-        <a
-          href="/package"
-          className="btn inline-flex items-center justify-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden z-10"
-        >
-          <i className="fas fa-star"></i> Choose your Package
-        </a>
-        <a
-          href="https://docs.google.com/forms/d/1Y1LIMzMhg0LOWikTFFiS_IdFxDjbT6g7R4cnBgjwCbs/edit"
-          className="btn-outline inline-flex items-center justify-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300"
-        >
-          <i className="fas fa-briefcase"></i> Start Your Project
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+      {/* Portfolio Hero */}
+      <section
+        className="relative bg-gradient-to-br from-[#1a1a2e]/92 to-[#16213e]/88 bg-cover bg-center bg-fixed text-white py-32 md:py-40 mb-20 overflow-hidden"
+        style={{ backgroundImage: "url('/assets/images/hero-bg-img.jpg')" }}
+      >
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/50"></div>
+        {/* Optional decorative gradient (kept for aesthetics) */}
+        <div className="absolute inset-0 featured-case-bg"></div>
+        <div className="container max-w-7xl mx-auto px-5 relative z-10 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat',sans-serif] uppercase tracking-wide drop-shadow-lg">
+              My{' '}
+              <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0 after:rounded">
+                Design Portfolio
+              </span>{' '}
+              & Case Studies
+            </h1>
+            <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
+              Explore a curated collection of my brand design, UI/UX, and visual
+              identity projects. Each case study showcases strategic design
+              solutions that have delivered measurable results for clients across
+              various industries.
+            </p>
+            <div className="flex gap-5 justify-center flex-wrap">
+              <a
+                href="/package"
+                className="btn inline-flex items-center justify-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden z-10"
+              >
+                <i className="fas fa-star"></i> Choose your Package
+              </a>
+              <a
+                href="https://docs.google.com/forms/d/1Y1LIMzMhg0LOWikTFFiS_IdFxDjbT6g7R4cnBgjwCbs/edit"
+                className="btn-outline inline-flex items-center justify-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300"
+              >
+                <i className="fas fa-briefcase"></i> Start Your Project
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Portfolio Filter */}
       <div className="max-w-7xl mx-auto px-5">
         <div className="portfolio-filter flex justify-center gap-4 flex-wrap mb-16">
@@ -469,134 +444,6 @@ useEffect(() => {
           ))}
         </div>
       </div>
-
-      {/* Featured Case Study */}
-      <section
-        className="featured-case bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white py-24 rounded-3xl mb-24 relative overflow-hidden"
-        id="featured"
-      >
-        <div className="absolute w-[400px] h-[400px] bg-white/5 rounded-full -top-40 -right-40"></div>
-        <div className="max-w-7xl mx-auto px-5 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="case-text">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6 font-['Montserrat',sans-serif]">
-                Featured Case Study: EcoFresh Organic Foods
-              </h2>
-              <p className="text-white/90 text-lg leading-relaxed mb-5">
-                This comprehensive brand identity project transformed a local
-                organic food company into a nationally recognized brand. The
-                challenge was to create a visual identity that communicated
-                freshness, sustainability, and trustworthiness while appealing to
-                health-conscious consumers.
-              </p>
-              <p className="text-white/90 text-lg leading-relaxed mb-5">
-                The solution included a complete brand system: logo, color
-                palette, typography, packaging design, marketing materials, and
-                digital presence. The new identity resulted in a 40% increase in
-                brand recognition and a 25% growth in sales within the first year.
-              </p>
-              <div className="case-stats grid grid-cols-2 gap-6 mt-8">
-                <div className="case-stat text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition hover:-translate-y-2 hover:bg-white/20">
-                  <h3 className="text-3xl text-[#1dc9b7] font-bold mb-2">40%</h3>
-                  <p className="text-white/80 text-sm">
-                    Increase in Brand Recognition
-                  </p>
-                </div>
-                <div className="case-stat text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition hover:-translate-y-2 hover:bg-white/20">
-                  <h3 className="text-3xl text-[#1dc9b7] font-bold mb-2">25%</h3>
-                  <p className="text-white/80 text-sm">
-                    Sales Growth in First Year
-                  </p>
-                </div>
-                <div className="case-stat text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition hover:-translate-y-2 hover:bg-white/20">
-                  <h3 className="text-3xl text-[#1dc9b7] font-bold mb-2">12</h3>
-                  <p className="text-white/80 text-sm">
-                    Brand Identity Deliverables
-                  </p>
-                </div>
-                <div className="case-stat text-center p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 transition hover:-translate-y-2 hover:bg-white/20">
-                  <h3 className="text-3xl text-[#1dc9b7] font-bold mb-2">3</h3>
-                  <p className="text-white/80 text-sm">Months Project Duration</p>
-                </div>
-              </div>
-              <Link
-                href="/package"
-                className="btn inline-flex items-center gap-2 mt-8 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition"
-              >
-                <i className="fas fa-file-alt"></i> View our Package
-              </Link>
-            </div>
-            <div className="case-image rounded-xl overflow-hidden shadow-2xl transition-transform duration-500 hover:-translate-y-2 hover:scale-105">
-              <Image
-                src="/assets/images/organic-foods.jpg"
-                alt="EcoFresh Case Study"
-                width={600}
-                height={400}
-                className="w-full h-auto block"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Client Testimonials */}
-      <section className="testimonials mb-24">
-        <div className="max-w-7xl mx-auto px-5">
-          <h2 className="section-title text-center text-4xl md:text-5xl font-bold text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:rounded">
-            Client Testimonials
-          </h2>
-          <div className="testimonial-slider max-w-3xl mx-auto relative">
-            <div className="testimonial bg-white p-8 md:p-12 rounded-3xl shadow-2xl text-center mx-3 relative">
-              <div className="testimonial-content text-lg md:text-xl text-gray-600 mb-8 italic relative testimonial-quote">
-                {testimonials[testimonialIndex].content}
-              </div>
-              <div className="client-info flex items-center justify-center gap-5">
-                <div className="client-avatar w-16 h-16 rounded-full overflow-hidden border-4 border-[#1dc9b7]"> {/* fixed: border-3 → border-4 */}
-                  <Image
-                    src={testimonials[testimonialIndex].avatar}
-                    alt={testimonials[testimonialIndex].name}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="client-details text-left">
-                  <h4 className="text-xl font-semibold text-[#16213e]">
-                    {testimonials[testimonialIndex].name}
-                  </h4>
-                  <p className="text-gray-500 text-sm">
-                    {testimonials[testimonialIndex].role}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-nav flex justify-center gap-4 mt-10">
-              <button
-                className="nav-btn w-12 h-12 rounded-full bg-white border-2 border-[#0f9b8e]/20 text-[#0f9b8e] flex items-center justify-center transition hover:bg-[#0f9b8e] hover:text-white hover:-translate-y-1"
-                onClick={() =>
-                  setTestimonialIndex(
-                    (prev) => (prev - 1 + testimonials.length) % testimonials.length
-                  )
-                }
-                title="Previous testimonial"
-                aria-label="Previous testimonial"
-              >
-                <i className="fas fa-chevron-left"></i>
-              </button>
-              <button
-                className="nav-btn w-12 h-12 rounded-full bg-white border-2 border-[#0f9b8e]/20 text-[#0f9b8e] flex items-center justify-center transition hover:bg-[#0f9b8e] hover:text-white hover:-translate-y-1"
-                onClick={() =>
-                  setTestimonialIndex((prev) => (prev + 1) % testimonials.length)
-                }
-                title="Next testimonial"
-                aria-label="Next testimonial"
-              >
-                <i className="fas fa-chevron-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Design Process */}
       <section className="process mb-24">

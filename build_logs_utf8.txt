@@ -1,0 +1,235 @@
+﻿
+> mypage@0.1.0 build C:\Users\USER\Downloads\MYPAGE\mypage
+> next build
+
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ظû▓ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+node.exe : Turbopack 
+build encountered 3 
+warnings:
+At C:\Users\USER\AppDat
+a\Roaming\npm\pnpm.ps1:
+24 char:5
++     & "node$exe"  "$b
+asedir/node_modules/pnp
+m/bin/pnpm.cjs" $args
++     ~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Turbopack bui   
+ ld encountered 3 w    
+arnings::String) [    
+], RemoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[next]/internal/font/go
+ogle/inter_5901b7c6.mod
+ule.css
+Error while requesting 
+resource
+There was an issue 
+establishing a 
+connection while 
+requesting https://font
+s.googleapis.com/css2?f
+amily=Inter:wght@100..9
+00&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/inter_5901b7c6
+.module.css
+    [next]/internal/fon
+t/google/inter_5901b7c6
+.js
+    ./app/layout.tsx
+
+
+[next]/internal/font/go
+ogle/montserrat_857ffce
+7.module.css
+Error while requesting 
+resource
+There was an issue 
+establishing a 
+connection while 
+requesting https://font
+s.googleapis.com/css2?f
+amily=Montserrat:wght@4
+00;500;600;700&display=
+swap
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/montserrat_857
+ffce7.module.css
+    [next]/internal/fon
+t/google/montserrat_857
+ffce7.js
+    ./app/layout.tsx
+
+
+[next]/internal/font/go
+ogle/poppins_2024bc9.mo
+dule.css
+Error while requesting 
+resource
+There was an issue 
+establishing a 
+connection while 
+requesting https://font
+s.googleapis.com/css2?f
+amily=Poppins:wght@300;
+400;500;600;700&display
+=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/poppins_2024bc
+9.module.css
+    [next]/internal/fon
+t/google/poppins_2024bc
+9.js
+    ./app/layout.tsx
+
+
+
+> Build error occurred
+Error: Turbopack build 
+failed with 4 errors:
+./app/globals.css
+Error evaluating 
+Node.js code
+Error: Cannot find 
+module 'C:\Users\USER\D
+ownloads\MYPAGE\mypage\
+node_modules\.pnpm\enha
+nced-resolve@5.19.0\nod
+e_modules\tapable\lib\i
+ndex.js'. Please 
+verify that the 
+package.json has a 
+valid "main" entry
+    [at tryPackage (nod
+e:internal/modules/cjs/
+loader:531:19)]
+    [at 
+Module._findPath (node:
+internal/modules/cjs/lo
+ader:799:18)]
+    [at Module._resolve
+Filename (node:internal
+/modules/cjs/loader:144
+1:27)]
+    [at 
+defaultResolveImpl (nod
+e:internal/modules/cjs/
+loader:1066:19)]
+    [at 
+resolveForCJSWithHooks 
+(node:internal/modules/
+cjs/loader:1071:22)]
+    [at Module._load (n
+ode:internal/modules/cj
+s/loader:1242:25)]
+    [at wrapModuleLoad 
+(node:internal/modules/
+cjs/loader:255:19)]
+    [at Module.require 
+(node:internal/modules/
+cjs/loader:1556:12)]
+    [at require (node:i
+nternal/modules/helpers
+:152:16)]
+    [at 
+Object.<anonymous> (C:\
+Users\USER\Downloads\MY
+PAGE\mypage\node_module
+s\.pnpm\enhanced-resolv
+e@5.19.0\node_modules\e
+nhanced-resolve\lib\Res
+olver.js:8:60)]
+
+Import trace:
+  Client Component 
+Browser:
+    ./app/globals.css 
+[Client Component 
+Browser]
+    ./app/layout.tsx 
+[Server Component]
+
+
+[next]/internal/font/go
+ogle/inter_5901b7c6.mod
+ule.css
+next/font: error:
+Failed to fetch 
+`Inter` from Google 
+Fonts.
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/inter_5901b7c6
+.module.css
+    [next]/internal/fon
+t/google/inter_5901b7c6
+.js
+    ./app/layout.tsx
+
+
+[next]/internal/font/go
+ogle/montserrat_857ffce
+7.module.css
+next/font: error:
+Failed to fetch 
+`Montserrat` from 
+Google Fonts.
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/montserrat_857
+ffce7.module.css
+    [next]/internal/fon
+t/google/montserrat_857
+ffce7.js
+    ./app/layout.tsx
+
+
+[next]/internal/font/go
+ogle/poppins_2024bc9.mo
+dule.css
+next/font: error:
+Failed to fetch 
+`Poppins` from Google 
+Fonts.
+
+Import trace:
+  Server Component:
+    [next]/internal/fon
+t/google/poppins_2024bc
+9.module.css
+    [next]/internal/fon
+t/google/poppins_2024bc
+9.js
+    ./app/layout.tsx
+
+
+    at ignore-listed 
+frames
+ظëELIFECYCLEظë Command failed with exit code 1.

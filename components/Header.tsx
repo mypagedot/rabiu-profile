@@ -37,7 +37,7 @@ export default function Header() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Portfolio", path: "/portfolio" },
+    { name: "Projects", path: "/portfolio" },
     { name: "Services", path: "/services" },
     { name: "Skills", path: "/skills" },
     { name: "Let's Talk", path: "/contact", isCta: true },

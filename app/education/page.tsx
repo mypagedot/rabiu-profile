@@ -9,7 +9,6 @@ export default function AboutPage() {
 
   // Refs for animation targets
   const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const skillRefs = useRef<(HTMLDivElement | null)[]>([]);
   const specializationTextRef = useRef<HTMLDivElement>(null);
   const specializationImageRef = useRef<HTMLDivElement>(null);
 
@@ -38,13 +37,6 @@ export default function AboutPage() {
     );
 
     timelineRefs.current.forEach((el) => {
-      if (el) {
-        el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-500', 'ease-out');
-        observer.observe(el);
-      }
-    });
-
-    skillRefs.current.forEach((el) => {
       if (el) {
         el.classList.add('opacity-0', 'translate-y-8', 'transition-all', 'duration-500', 'ease-out');
         observer.observe(el);
@@ -193,7 +185,7 @@ export default function AboutPage() {
         </div>
       </header>
 
-      <main className="pt-20">
+      <main className="pt-0">
         {/* About Hero Section (unchanged) */}
         <section
           className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed"
@@ -222,8 +214,19 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* My Journey Timeline */}
-        <section className="container mx-auto px-6 py-20">
+        {/* My Journey Timeline - with background image */}
+        <section className="relative container mx-auto px-6 py-20">
+          {/* Background image (subtle tech pattern) */}
+          <div
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: 'url("https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=2070&q=80")',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+            }}
+          ></div>
+
           <h2 className="section-title text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
             Educational & Professional Timeline
           </h2>
@@ -243,13 +246,13 @@ export default function AboutPage() {
                       : 'md:pl-[50%] md:pr-0' // content on right side
                   }`}
                 >
-                  {/* Card container */}
+                  {/* Card container - standardized white card */}
                   <div
                     ref={(el) => { timelineRefs.current[index] = el; }}
-                    className={`bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative ${
+                    className={`bg-white p-6 md:p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative border-l-4 border-[#0f9b8e] ${
                       isEven
-                        ? 'md:ml-auto md:mr-0 border-l-4 border-[#0f9b8e]' // left border for left‑side cards
-                        : 'md:mr-auto md:ml-0 border-l-4 md:border-l-0 md:border-r-4 border-[#0f9b8e]' // right border for right‑side cards
+                        ? 'md:ml-auto md:mr-0'
+                        : 'md:mr-auto md:ml-0'
                     }`}
                   >
                     {/* Year badge – positioned relative to card */}
@@ -275,37 +278,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Technical Skills (unchanged) */}
-        <section className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] py-24 rounded-3xl mx-6 md:mx-auto md:max-w-6xl mb-20 relative overflow-hidden">
-          <div className="absolute w-96 h-96 bg-white/5 rounded-full -top-48 -right-48"></div>
-          <div className="container mx-auto px-6 relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
-              Technical Expertise
-            </h2>
-            <p className="text-center text-white/80 text-lg mb-12 max-w-3xl mx-auto">
-              My diverse educational background has equipped me with a unique combination of technical skills, creative design thinking, and problem-solving abilities.
-            </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: 'fa-mobile-alt', title: 'Mobile Development', desc: 'Specialized in developing native and cross-platform mobile applications for iOS and Android using modern frameworks and best practices.' },
-                { icon: 'fa-code', title: 'Software Engineering', desc: 'Proficient in software design patterns, system architecture, and full development lifecycle from requirements to deployment.' },
-                { icon: 'fa-paint-brush', title: 'UI/UX Design', desc: 'Combining graphic design skills with user experience principles to create intuitive, visually appealing application interfaces.' },
-                { icon: 'fa-globe', title: 'Web Development', desc: 'Full-stack web development capabilities including frontend frameworks, backend APIs, and database management systems.' },
-              ].map((skill, idx) => (
-                <div
-                  key={idx}
-                  ref={(el) => { skillRefs.current[idx] = el; }}
-                  className="bg-white/10 backdrop-blur-sm p-8 rounded-xl text-center transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 border border-white/10"
-                >
-                  <i className={`fas ${skill.icon} text-4xl text-[#1dc9b7] mb-4`}></i>
-                  <h3 className="text-xl font-semibold text-white mb-3">{skill.title}</h3>
-                  <p className="text-white/80 text-sm">{skill.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Specialization (unchanged) */}
         <section className="container mx-auto px-6 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -314,7 +286,7 @@ export default function AboutPage() {
                 Mobile Application Development Specialization
               </h2>
               <p className="text-gray-700 text-lg mb-4">
-                As a Software Engineer specializing in Mobile Application Development, I focus on creating robust, scalable, and user-friendly mobile solutions for diverse platforms and industries.
+                As a Software Engineer specializing in Mobile Application Development and Visual Brand System Design, I focus on creating robust, scalable, and user-friendly mobile solutions for diverse platforms and industries.
               </p>
               <p className="text-gray-700 text-lg mb-4">
                 My approach combines technical expertise with design thinking to deliver applications that not only function flawlessly but also provide exceptional user experiences.
@@ -332,11 +304,19 @@ export default function AboutPage() {
                   </span>
                 ))}
               </div>
+              <div className="flex flex-wrap gap-4 justify-center mt-8">
+                <Link href="/portfolio" className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                  <i className="fas fa-code-branch"></i> View My Projects
+                </Link>
+                <Link href="/contact" className="btn-outline border-2 border-primary text-primary px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+                  <i className="fas fa-comment-dots"></i> Start a Conversation
+                </Link>
+              </div>
             </div>
             <div ref={specializationImageRef} className="relative group">
               <div className="rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.02]">
                 <img
-                  src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80"
+                  src="assets/images/mobile-app2.jpg"
                   alt="Mobile Application Development"
                   className="w-full h-auto"
                 />
@@ -345,32 +325,14 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-
-        {/* Call to Action (unchanged) */}
-        <section className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] py-20 rounded-3xl mx-6 md:mx-auto md:max-w-5xl mb-20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-10"></div>
-          <div className="container mx-auto px-6 text-center relative z-10">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Build Your Mobile Solution?</h3>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-10">
-              Whether you need a custom mobile application, want to discuss software engineering projects, or are looking for a dedicated mobile developer for your team, I'd love to connect and explore how we can work together.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/portfolio" className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-code-branch"></i> View My Projects
-              </Link>
-              <Link href="/contact" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-comment-dots"></i> Start a Conversation
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
 
-      {/* Footer (unchanged) */}
+      {/* Footer - now with four columns */}
       <footer className="bg-[#1a1a2e] text-white pt-16 pb-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-[length:30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            {/* Column 1: About */}
             <div>
               <h3 className="text-2xl font-bold text-[#1dc9b7] mb-5">Rabiu Sani Muhammad</h3>
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -380,8 +342,10 @@ export default function AboutPage() {
                 {['github', 'linkedin-in', 'twitter', 'stack-overflow', 'medium'].map((social) => (
                   <a
                     key={social}
-                    href="#"
+                    href="#"  // Replace with your actual profile URLs
                     className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1dc9b7] hover:-translate-y-1 transition-all duration-300 border border-white/20"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className={`fab fa-${social}`}></i>
                   </a>
@@ -389,22 +353,44 @@ export default function AboutPage() {
               </div>
             </div>
 
+            {/* Column 2: Quick Links */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Quick Links</h3>
               <ul className="space-y-3">
-                {['Home', 'About Me', 'Portfolio', 'Tech Stacks', 'Services', 'Contact'].map((item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href={`/${item.toLowerCase().replace(' ', '-')}`}
-                      className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2"
-                    >
-                      <i className="fas fa-chevron-right text-xs"></i> {item}
-                    </Link>
-                  </li>
-                ))}
+                <li>
+                  <Link href="/" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> About Me
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/portfolio" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Portfolio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/skills" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Skills
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Services
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Contact
+                  </Link>
+                </li>
               </ul>
             </div>
 
+            {/* Column 3: Contact Info */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Contact Info</h3>
               <ul className="space-y-3">
@@ -419,14 +405,46 @@ export default function AboutPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
+                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
                     <i className="fas fa-map-marker-alt w-5"></i> FCT, Abuja, Nigeria
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
+                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
                     <i className="fas fa-globe w-5"></i> Available for International Projects
-                  </a>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Services */}
+            <div>
+              <h3 className="text-xl font-semibold text-white mb-5">Services</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-mobile-alt w-5"></i> Mobile App Development
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-paint-brush w-5"></i> Brand Identity Design
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-code w-5"></i> Web Development
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-pencil-ruler w-5"></i> UI/UX Design
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-chart-line w-5"></i> Consulting
+                  </Link>
                 </li>
               </ul>
             </div>

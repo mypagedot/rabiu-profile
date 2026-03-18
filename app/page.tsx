@@ -1,33 +1,61 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import Script from 'next/script'; // ← Added for chat widget
+import Script from 'next/script';
+
+// Static data moved outside component to avoid recreation on each render
+const slideImages = [
+  '/assets/images/rsmm.jpeg',
+  '/assets/images/about-1.png',
+  '/assets/images/rabiu-2.png',
+  '/assets/images/CTA55.png',
+];
+
+const workItems = [
+  {
+    category: 'mobile',
+    title: 'Eco Global Renewable Energy Limited – Mobile App (Working on this Project)',
+    description:
+      'Cross‑platform mobile banking app with biometric login, real‑time transactions, and an intuitive dashboard. Built with React Native + Node.js.',
+    image: '/assets/images/solar-mobile.png',
+    categoryLabel: 'Mobile App',
+    platformLink: 'https://payquick.example.com',
+  },
+  {
+    category: 'branding',
+    title: 'Halal Promotion Foundation – Corporate Platform Identity',
+    description:
+      'Full visual identity – logo, packaging, and marketing collateral for an organic food startup. Sustainable look, strong shelf presence.',
+    image: '/assets/images/halal-pf.png',
+    categoryLabel: 'Full Visual Brand Identity',
+    platformLink: 'https://halalnigeria.com/',
+  },
+  {
+    category: 'web',
+    title: 'ICICE AL-Noor Masjid – Support Services Platform',
+    description:
+      'User experience design for a patient‑monitoring dashboard. Simplified workflows, accessible components, and a calming colour palette. Using Laravel + Blade.',
+    image: '/assets/images/icice.png',
+    categoryLabel: 'Web App',
+    platformLink: 'https://icicecentre.org/',
+  },
+];
 
 export default function Home() {
   // Mobile menu state
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
-  // For typed effect
   const [typedText, setTypedText] = useState('');
-  // For back to top button visibility
   const [showBackToTop, setShowBackToTop] = useState(false);
-  // Slideshow state
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Refs for stats animation
   const statsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const statsObserver = useRef<IntersectionObserver | null>(null);
-
-  // Slideshow images
-  const slideImages = [
-    '/assets/images/rsmm.jpeg',
-    '/assets/images/about-1.png',
-    '/assets/images/rabiu-2.png',
-    '/assets/images/CTA55.png',
-  ];
+  // FIX: Use a Map to store animation frame IDs per element (prevents interference)
+  const animationFrames = useRef<Map<Element, number>>(new Map());
 
   // Handle scroll events for header and back to top
   useEffect(() => {
@@ -55,20 +83,24 @@ export default function Home() {
     return () => clearInterval(timer);
   }, []);
 
-  // Slideshow effect – starts after 0.1 second, then cycles every 3 seconds
+  // Slideshow effect – properly cleaned up
   useEffect(() => {
     const SLIDE_INTERVAL = 3000;
+    let intervalId: NodeJS.Timeout;
+
     const timeoutId = setTimeout(() => {
-      const intervalId = setInterval(() => {
+      intervalId = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slideImages.length);
       }, SLIDE_INTERVAL);
-      return () => clearInterval(intervalId);
     }, 100);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [slideImages.length]);
 
-  // Stats animation with Intersection Observer
+  // Stats animation with Intersection Observer + per‑element requestAnimationFrame
   useEffect(() => {
     statsObserver.current = new IntersectionObserver(
       (entries) => {
@@ -79,16 +111,36 @@ export default function Home() {
             const suffix = el.dataset.suffix || '';
             let current = 0;
             const increment = target / 50;
+
+            // Cancel any existing animation for this element (should not happen, but safe)
+            const existingFrame = animationFrames.current.get(el);
+            if (existingFrame) {
+              cancelAnimationFrame(existingFrame);
+              animationFrames.current.delete(el);
+            }
+
             const updateCounter = () => {
+              if (!el.isConnected) {
+                // Element removed from DOM – clean up
+                animationFrames.current.delete(el);
+                return;
+              }
               current += increment;
               if (current < target) {
                 el.textContent = Math.floor(current) + suffix;
-                requestAnimationFrame(updateCounter);
+                const frameId = requestAnimationFrame(updateCounter);
+                animationFrames.current.set(el, frameId);
               } else {
                 el.textContent = target + suffix;
+                animationFrames.current.delete(el); // Finished
               }
             };
-            updateCounter();
+
+            // Start the animation
+            const frameId = requestAnimationFrame(updateCounter);
+            animationFrames.current.set(el, frameId);
+
+            // Stop observing this element once animation starts
             statsObserver.current?.unobserve(el);
           }
         });
@@ -96,47 +148,21 @@ export default function Home() {
       { threshold: 0.5 }
     );
 
+    // Observe all stat elements
     statsRef.current.forEach((el) => {
       if (el) statsObserver.current?.observe(el);
     });
 
-    return () => statsObserver.current?.disconnect();
+    // Cleanup: disconnect observer and cancel all pending animations
+    return () => {
+      statsObserver.current?.disconnect();
+      animationFrames.current.forEach((frameId) => cancelAnimationFrame(frameId));
+      animationFrames.current.clear();
+    };
   }, []);
-
-  // Work items with proper categories and platform links
-  const workItems = [
-    {
-      category: 'I am Working on this mobileApp',
-      title: 'Eco Global Renewable Energy Limited – Mobile App (Working on this Project)',
-      description:
-        'Cross‑platform mobile banking app with biometric login, real‑time transactions, and an intuitive dashboard. Built with React Native + Node.js.',
-      image: '/assets/images/solar-mobile.png',
-      categoryLabel: 'Mobile App',
-      platformLink: 'https://payquick.example.com', // Replace with actual live platform URL
-    },
-    {
-      category: 'branding',
-      title: 'Halal Promotion Foundation – Corporate Platform Identity',
-      description:
-        'Full visual identity – logo, packaging, and marketing collateral for an organic food startup. Sustainable look, strong shelf presence.',
-      image: '/assets/images/halal-pf.png',
-      categoryLabel: 'Full Visual Brand Identity',
-      platformLink: 'https://halalnigeria.com/', // Replace with actual live platform URL
-    },
-    {
-      category: 'web',
-      title: 'ICICE AL-Noor Masjid – Support Services Platform',
-      description:
-        'User experience design for a patient‑monitoring dashboard. Simplified workflows, accessible components, and a calming colour palette. Using Laravel + Blade.',
-      image: '/assets/images/icice-1.png',
-      categoryLabel: 'Web App',
-      platformLink: 'https://icicecentre.org/', // Already live
-    },
-  ];
 
   const filteredWork = activeFilter === 'all' ? workItems : workItems.filter(item => item.category === activeFilter);
 
-  // Mobile menu toggle
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     document.body.style.overflow = !isMenuOpen ? 'hidden' : 'auto';
@@ -149,7 +175,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Header (unchanged) */}
+      {/* Header – unchanged */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? 'bg-[#1a1a2e]/98 py-3 shadow-lg backdrop-blur-md' : 'bg-[#1a1a2e]/95 py-4'
@@ -171,7 +197,7 @@ export default function Home() {
               <li>
                 <Link
                   href="/contact"
-                  className="bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-5 lg:px-7 py-2 lg:py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl hover:from-[#1dc9b7] hover:to-[#0f9b8e] transition-all duration-300 hover:-translate-y-0.5"
+                  className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-5 lg:px-7 py-2 lg:py-2.5 rounded-full font-semibold shadow-lg hover:shadow-xl hover:from-[#1dc9b7] hover:to-[#0f9b8e] transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Let's Talk
                 </Link>
@@ -184,7 +210,8 @@ export default function Home() {
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
-              <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
+              <span className="sr-only">Menu</span>
+              <i className={`fas ${isMenuOpen ? 'fa-times' : 'fa-bars'}`} aria-hidden="true"></i>
             </button>
           </nav>
 
@@ -196,14 +223,15 @@ export default function Home() {
               <Link href="/portfolio" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Portfolio</Link>
               <Link href="/services" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Services</Link>
               <Link href="/skills" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Skills</Link>
-              <Link href="/contact" className="bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold" onClick={closeMenu}>Let's Talk</Link>
+              <Link href="/contact" className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold" onClick={closeMenu}>Let's Talk</Link>
             </div>
           )}
         </div>
       </header>
 
-      <main className="pt-20">
-        {/* Hero Section (unchanged) */}
+      {/* Main content */}
+      <main className="pt-16">
+        {/* Hero Section */}
         <section
           className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed"
           style={{ backgroundImage: 'linear-gradient(135deg, rgba(26,26,46,0.75) 0%, rgba(22,33,62,0.6) 100%), url(/assets/images/hero-bg-img.jpg)' }}
@@ -212,7 +240,7 @@ export default function Home() {
           <div className="container mx-auto px-6 text-center relative z-10">
             <h2 className="text-2xl md:text-3xl font-medium mb-2">I am <strong>Rabiu Sani Muhammad (Aljauromanee),</strong> a Mobile</h2>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat uppercase leading-tight mb-4">
-              <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-linear-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0">
+              <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0">
                 {typedText}
               </span>
               <span className="block text-2xl md:text-3xl lg:text-4xl mt-2"> & <span className="text-[#1dc9b7]">Visual Brand Systems Designer</span></span>
@@ -223,8 +251,8 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center mt-8">
-              <Link href="/portfolio" className="btn-primary bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-briefcase"></i> VIEW PORTFOLIO
+              <Link href="/portfolio" className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
+                <i className="fas fa-briefcase"></i> PROJECTS
               </Link>
               <Link href="/skills" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
                 <i className="fas fa-code"></i> MY SKILLS
@@ -233,21 +261,21 @@ export default function Home() {
                 <i className="fas fa-graduation-cap"></i> EDUCATION
               </Link>
               <Link href="/package" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-comment"></i> VIEW OUR PACKAGES
+                <i className="fas fa-comment"></i>PACKAGES
               </Link>
-              <Link href="/contact" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-comment"></i> LET'S TALK
+              <Link href="/inquiry" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+                <i className="fas fa-comment"></i> ENQUIRE
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Introduction Section with Slideshow (unchanged) */}
-        <section className="container mx-auto px-6 py-20 md:py-28">
+        {/* Introduction Section */}
+        <section className="container mx-auto px-6 py-16 md:py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left column - content */}
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-linear-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0">
                 Code meets Creativity
               </h2>
               <p className="text-gray-700 text-lg mb-4 leading-relaxed">
@@ -265,11 +293,10 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Standard button group */}
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/about"
-                  className="btn-primary inline-flex items-center gap-2 bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="btn-primary inline-flex items-center gap-2 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <i className="fas fa-user"></i> Explore More About Me
                 </Link>
@@ -295,46 +322,15 @@ export default function Home() {
                   <img src={src} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
-              <div className="absolute inset-0 bg-linear-to-tr from-[#0f9b8e]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#0f9b8e]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
           </div>
         </section>
 
-        {/* What I Do Section (unchanged) */}
-        <section className="container mx-auto px-6 py-20">
-          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-16 relative overflow-hidden">
-            <div className="absolute w-96 h-96 bg-[#0f9b8e]/5 rounded-full -top-48 -right-48"></div>
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-16 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-linear-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
-              What I Do
-            </h2>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { icon: 'fa-mobile-alt', title: 'Mobile App Development', desc: 'End‑to‑end development of native and cross‑platform apps (iOS/Android) using React Native, Flutter, Swift, Kotlin – clean code, smooth performance.' },
-                { icon: 'fa-paint-brush', title: 'Brand Identity Design', desc: 'Strategic visual identities – logos, colour systems, typography, and guidelines that make your brand unforgettable across all touchpoints.' },
-                { icon: 'fa-cubes', title: 'System Architecture', desc: 'Scalable app architecture, API design, state management, and backend integration – built to grow with your user base.' },
-                { icon: 'fa-pencil-ruler', title: 'UI/UX Design', desc: 'User‑centred interfaces, wireframing to high‑fidelity prototypes, with a focus on usability and conversion.' },
-                { icon: 'fa-print', title: 'Print & Packaging', desc: 'Brochures, packaging, business cards – tangible brand experiences that complement your digital presence.' },
-                { icon: 'fa-bullhorn', title: 'Digital Marketing Assets', desc: 'Social media creatives, ad banners, email templates – consistent, high‑impact visuals for your campaigns.' },
-              ].map((service, idx) => (
-                <div
-                  key={idx}
-                  className="service-card bg-white p-8 rounded-xl text-center border border-gray-100 shadow-lg hover:border-transparent transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:shadow-[#0f9b8e]/20 relative z-10 group"
-                >
-                  <div className="absolute inset-0 bg-linear-to-b from-[#0f9b8e] to-[#1dc9b7] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
-                  <i className={`fas fa-${service.icon} text-5xl text-[#0f9b8e] group-hover:text-white mb-6 transition-colors duration-300`}></i>
-                  <h3 className="text-2xl font-semibold text-[#16213e] group-hover:text-white mb-4 transition-colors duration-300">{service.title}</h3>
-                  <p className="text-gray-600 group-hover:text-white/90 transition-colors duration-300">{service.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Recent Work Section – updated with platform links and single button */}
-        <section className="container mx-auto px-6 py-20">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-linear-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
-            Featured Work
+        {/* Recent Work Section */}
+        <section className="container mx-auto px-6 py-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
+            MY PROJECTS
           </h2>
 
           {/* Filter buttons */}
@@ -359,14 +355,13 @@ export default function Home() {
               <div key={idx} className="work-item bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-4 group">
                 <div className="relative h-64 overflow-hidden">
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-linear-to-t from-[#0f9b8e]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f9b8e]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                     <span className="bg-white text-[#0f9b8e] px-4 py-1.5 rounded-full text-sm font-semibold">{item.categoryLabel}</span>
                   </div>
                 </div>
                 <div className="p-8">
                   <h3 className="text-xl font-bold text-[#16213e] mb-3">{item.title}</h3>
                   <p className="text-gray-600 mb-6">{item.description}</p>
-                  {/* Only one button: View the Platform */}
                   <Link
                     href={item.platformLink}
                     target="_blank"
@@ -381,23 +376,23 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/portfolio" className="btn-primary inline-flex items-center gap-2 bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <Link href="/portfolio" className="btn-primary inline-flex items-center gap-2 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
               <i className="fas fa-arrow-right"></i> See All Projects
             </Link>
           </div>
         </section>
 
-        {/* Impact Stats Section (unchanged) */}
-        <section className="bg-white py-20">
+        {/* Impact Stats Section */}
+        <section className="bg-white py-12">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-linear-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
               Impact by numbers
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {[
-                { target: 5, suffix: '+', label: 'Projects Delivered' },
+                { target: 4, suffix: '+', label: 'Projects Delivered' },
                 { target: 80, suffix: '%', label: 'Client Satisfaction' },
-                { target: 5, suffix: '+', label: 'Years Experience' },
+                { target: 3, suffix: '+', label: 'Years Experience' },
                 { target: 4, suffix: '+', label: 'Happy Clients' },
               ].map((stat, idx) => (
                 <div key={idx} className="stat-item bg-gray-100 p-8 rounded-xl text-center transition-all duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:border-[#1dc9b7] border border-transparent shadow-sm">
@@ -418,7 +413,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA Section (unchanged) */}
+        {/* CTA Section */}
         <section
           className="relative text-white py-24 bg-cover bg-center"
           style={{ backgroundImage: 'url(/assets/images/CTA8.png)' }}
@@ -430,8 +425,8 @@ export default function Home() {
               Whether you need a polished mobile app, a complete brand overhaul, or a blend of both. I'll help you bring your vision to life.
             </p>
             <a
-              href="https://forms.gle/KHfLihRz1UQKJ1YR6"
-              className="btn-primary inline-flex items-center gap-2 bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-10 py-5 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              href="/inquiry"
+              className="btn-primary inline-flex items-center gap-2 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-10 py-5 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
               <i className="fas fa-calendar-check"></i> Let's Build yours Today
             </a>
@@ -439,11 +434,15 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer (unchanged) */}
+      {/* Footer */}
+      
+
+                  {/* Footer */}
       <footer className="bg-[#1a1a2e] text-white pt-16 pb-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-size-[30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            {/* Column 1: About */}
             <div>
               <h3 className="text-2xl font-bold text-[#1dc9b7] mb-5">Rabiu Sani Muhammad</h3>
               <p className="text-gray-300 mb-6 leading-relaxed">
@@ -453,8 +452,10 @@ export default function Home() {
                 {['whatsapp', 'github', 'linkedin', 'dribbble', 'instagram'].map((social) => (
                   <a
                     key={social}
-                    href="#"
+                    href="#"  // Replace with your actual profile URLs
                     className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1dc9b7] hover:-translate-y-1 transition-all duration-300 border border-white/20"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className={`fab fa-${social}`}></i>
                   </a>
@@ -462,19 +463,39 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Column 2: Quick Links */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Quick Links</h3>
               <ul className="space-y-3">
-                {['Home', 'About Me', 'Portfolio', 'Skills', 'Services', 'Contact'].map((item, idx) => (
-                  <li key={idx}>
-                    <Link href={`/${item.toLowerCase().replace(' ', '')}`} className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                      <i className="fas fa-chevron-right text-xs"></i> {item}
-                    </Link>
-                  </li>
-                ))}
+                <li>
+                  <Link href="/" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> About Me
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/portfolio" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Portfolio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/skills" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Skills
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                    <i className="fas fa-chevron-right text-xs"></i> Services
+                  </Link>
+                </li>
               </ul>
             </div>
 
+            {/* Column 3: Contact Info */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Contact Info</h3>
               <ul className="space-y-3">
@@ -489,14 +510,46 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
+                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
                     <i className="fas fa-map-marker-alt w-5"></i> FCT, Abuja, Nigeria
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
+                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
                     <i className="fas fa-globe w-5"></i> Available Worldwide
-                  </a>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Services (now linked) */}
+            <div>
+              <h3 className="text-xl font-semibold text-white mb-5">Services</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-mobile-alt w-5"></i> Mobile App Development
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-paint-brush w-5"></i> Brand Identity Design
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-code w-5"></i> Web Development
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-pencil-ruler w-5"></i> UI/UX Design
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/inquiry" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                    <i className="fas fa-chart-line w-5"></i> Consulting
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -508,10 +561,12 @@ export default function Home() {
         </div>
       </footer>
 
+      {/*end footer*/}
+
       {/* Back to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-linear-to-r from-[#0f9b8e] to-[#1dc9b7] text-white shadow-lg flex items-center justify-center text-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl z-50 ${
+        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white shadow-lg flex items-center justify-center text-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl z-50 ${
           showBackToTop ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
         aria-label="Back to top"
@@ -519,15 +574,13 @@ export default function Home() {
         <i className="fas fa-arrow-up"></i>
       </button>
 
-      {/* ========== AI CHAT WIDGET (ADDED) ========== */}
-      {/* Tawk.to Script – replace the direct link with your own property */}
+      {/* AI Chat Widget */}
       <Script
         id="tawk-to-script"
         strategy="lazyOnload"
         src="https://embed.tawk.to/65f1c2c89131ed19d976fd72/1hp6cmmpr"
         onError={(e) => console.error('Tawk.to script failed to load', e)} 
       />
-      {/* ========== END AI CHAT WIDGET ========== */}
     </>
   );
 }

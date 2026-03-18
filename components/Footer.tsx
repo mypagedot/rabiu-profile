@@ -22,7 +22,7 @@ export default function Footer() {
             <ul>
               <li><Link href="/"><i className="fas fa-chevron-right"></i> Home</Link></li>
               <li><Link href="/about"><i className="fas fa-chevron-right"></i> About Me</Link></li>
-              <li><Link href="/portfolio"><i className="fas fa-chevron-right"></i> Portfolio</Link></li>
+              <li><Link href="/portfolio"><i className="fas fa-chevron-right"></i> Projects</Link></li>
               <li><Link href="/skills"><i className="fas fa-chevron-right"></i> Skills</Link></li>
               <li><Link href="/services"><i className="fas fa-chevron-right"></i> Services</Link></li>
               <li><Link href="/contact"><i className="fas fa-chevron-right"></i> Contact</Link></li>

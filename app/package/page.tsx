@@ -335,13 +335,7 @@ export default function PackagesPage() {
 
       <main className="pt-20">
         {/* Packages Hero */}
-        <section
-          className="relative text-white py-24 md:py-32 bg-cover bg-center bg-fixed overflow-hidden mb-16"
-          style={{
-            backgroundImage:
-              "linear-gradient(135deg, rgba(26,26,46,0.95) 0%, rgba(22,33,62,0.9) 100%), url(/assets/images/hero-bg-img.jpg)",
-          }}
-        >
+        <section className="relative text-white py-24 md:py-32 bg-cover bg-center bg-fixed overflow-hidden mb-16 hero-section">
           <div className="container mx-auto px-5 max-w-7xl relative z-10 text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 font-['Montserrat']">
               Software Development Packages –{" "}

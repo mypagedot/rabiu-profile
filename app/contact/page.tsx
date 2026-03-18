@@ -389,9 +389,7 @@ export default function ContactPage() {
             </p>
             <div className="flex gap-5 justify-center flex-wrap">
               <a
-                href="https://forms.gle/KHfLihRz1UQKJ1YR6"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:aljauromanee@gmail.com"
                 className="btn inline-flex items-center justify-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden z-10"
               >
                 <i className="fas fa-paper-plane"></i> Send a Message
@@ -464,10 +462,12 @@ export default function ContactPage() {
                   <label className="block text-sm font-semibold text-[#16213e] mb-2">Project Type</label>
                   <div className="project-type-options grid grid-cols-2 gap-3">
                     {[
+                      { id: 'mobile', label: 'Mobile App' },
+                      { id: 'fintech', label: 'Fintech Solutions' },
                       { id: 'branding', label: 'Brand Identity' },
                       { id: 'uiux', label: 'UI/UX Design' },
                       { id: 'web', label: 'Web Design' },
-                      { id: 'other', label: 'Other' },
+                      { id: 'other', label: 'Other Specify' },
                     ].map((type) => (
                       <div key={type.id} className="project-type-option">
                         <input
@@ -504,11 +504,11 @@ export default function ContactPage() {
                     className="w-full px-5 py-4 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:border-[#0f9b8e] focus:ring-2 focus:ring-[#0f9b8e]/20 focus:bg-white transition appearance-none"
                   >
                     <option value="">Select budget range</option>
-                    <option value="under-100k">Under ₦100,000</option>
-                    <option value="100k-300k">₦100,000 - ₦300,000</option>
-                    <option value="300k-500k">₦300,000 - ₦500,000</option>
-                    <option value="500k-1m">₦500,000 - ₦1,000,000</option>
-                    <option value="over-1m">Over ₦1,000,000</option>
+                    <option value="under-100k">Under ₦500,000</option>
+                    <option value="100k-300k">₦500,000 - ₦1,000,000</option>
+                    <option value="300k-500k">₦1,000,000 - ₦2,000,000</option>
+                    <option value="over-500k">Above ₦2,000,000</option>
+                    <option value="other">Other Specify</option>
                   </select>
                 </div>
 
