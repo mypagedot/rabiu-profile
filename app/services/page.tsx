@@ -381,13 +381,13 @@ export default function ServicesPage() {
       </header>
 
       <main>
-        {/* Hero Section */}
+        {/* Hero Section - FIXED: added background image and overlay styling */}
         <section
-          className="relative text-white py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden mb-20 hero-section"
+          className="relative text-white py-20 md:py-24 bg-cover bg-center bg-fixed overflow-hidden mb-20"
+          style={{ backgroundImage: "url('/assets/images/hero-bg-img.jpg')" }}
         >
-          <div
-            className="absolute inset-0 pointer-events-none hero-overlay"
-          ></div>
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
           <div className="container mx-auto px-5 max-w-7xl relative z-10 text-center">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat'] uppercase tracking-wide drop-shadow-lg">

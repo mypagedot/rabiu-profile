@@ -16,7 +16,7 @@ export default function PortfolioPage() {
       id: 1,
       title: 'EcoFresh Organic Foods',
       category: 'branding',
-      image: '/assets/images/finTech.jpg',
+      image: '/assets/images/fintech.png',
       description:
         'Complete brand identity system for an organic food company, including logo, packaging, and marketing materials that communicate freshness and sustainability.',
       stats: [
@@ -31,7 +31,7 @@ export default function PortfolioPage() {
       id: 2,
       title: 'FinTech Mobile Banking App',
       category: 'uiux',
-      image: '/assets/images/finTech.jpg',
+      image: '/assets/images/mobile.jpg',
       description:
         'User experience and interface design for a mobile banking application, focusing on intuitive navigation, security, and seamless transaction flows.',
       stats: [
@@ -46,7 +46,7 @@ export default function PortfolioPage() {
       id: 3,
       title: 'Corporate Branding Package',
       category: 'print',
-      image: '/assets/images/eco-fresh-ide.jpg',
+      image: '/assets/images/ecofresh-ide.jpg',
       description:
         'Complete corporate identity package including business cards, letterheads, envelopes, and presentation folders for a multinational consulting firm.',
       stats: [
