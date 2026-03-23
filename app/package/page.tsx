@@ -11,7 +11,7 @@ export default function PackagesPage() {
     mobile: {
       corporate: {
         name: "Corporate",
-        price: "₦300,000 to ₦500,000",
+        price: "₦300,000 to ₦750,000",
         description: "Depend on the project - One‑time project fee",
         features: [
           "<strong>App Strategy Workshop</strong> – 2 hours",
@@ -30,7 +30,7 @@ export default function PackagesPage() {
       },
       professional: {
         name: "Professional",
-        price: "₦800,000 to ₦2,000,000",
+        price: "₦1,000,000 to ₦3,000,000",
         description: "Complete app design system",
         features: [
           "<strong>Everything in Corporate</strong> – plus:",
@@ -51,7 +51,7 @@ export default function PackagesPage() {
       },
       enterprise: {
         name: "Enterprise",
-        price: "₦2,000,000 to ₦5,000,000+",
+        price: "₦2,000,000 to ₦7,5000,000+",
         description: "Custom project‑based pricing",
         features: [
           "<strong>Everything in Professional</strong> – plus:",
@@ -74,7 +74,7 @@ export default function PackagesPage() {
     web: {
       corporate: {
         name: "Corporate",
-        price: "₦250,000 to ₦750,000",
+        price: "₦250,000 to ₦500,000",
         description: "Depend on the project One‑time project fee",
         features: [
           "<strong>Discovery & Planning</strong> – 2 hours",
@@ -210,9 +210,8 @@ export default function PackagesPage() {
     return (
       <div
         key={tier}
-        className={`bg-white rounded-2xl shadow-xl border ${
-          isProfessional ? "border-2 border-[#0f9b8e] relative transform scale-105 lg:scale-110" : "border-gray-100"
-        } overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300`}
+        className={`bg-white rounded-2xl shadow-xl border ${isProfessional ? "border-2 border-[#0f9b8e] relative transform scale-105 lg:scale-110" : "border-gray-100"
+          } overflow-hidden hover:-translate-y-2 hover:shadow-2xl transition-all duration-300`}
       >
         {isProfessional && (
           <div className="absolute top-4 right-4 bg-[#0f9b8e] text-white px-3 py-1 text-xs font-semibold rounded-full rotate-12 z-10">
@@ -358,11 +357,10 @@ export default function PackagesPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                className={`px-4 py-2 text-sm sm:text-base font-medium rounded-t-lg transition ${
-                  activeTab === tab.id
-                    ? "bg-[#1a1a2e] text-white"
-                    : "text-gray-600 hover:text-[#0f9b8e] hover:bg-gray-100"
-                }`}
+                className={`px-4 py-2 text-sm sm:text-base font-medium rounded-t-lg transition ${activeTab === tab.id
+                  ? "bg-[#1a1a2e] text-white"
+                  : "text-gray-600 hover:text-[#0f9b8e] hover:bg-gray-100"
+                  }`}
               >
                 {tab.label}
               </button>

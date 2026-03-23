@@ -50,6 +50,7 @@ export default function Home() {
   const [typedText, setTypedText] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [bgMood, setBgMood] = useState<'dark' | 'light'>('dark'); // New background mood state
 
   // Refs for stats animation
   const statsRef = useRef<(HTMLSpanElement | null)[]>([]);
@@ -173,27 +174,50 @@ export default function Home() {
     document.body.style.overflow = 'auto';
   };
 
+  const isDark = bgMood === 'dark';
+
   return (
-    <>
-      {/* Header – unchanged */}
+    <div className={`transition-colors duration-500 min-h-screen ${isDark ? 'bg-[#121225]' : 'bg-gray-50'}`}>
+      
+
+
+      {/* Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-[#1a1a2e]/98 py-3 shadow-lg backdrop-blur-md' : 'bg-[#1a1a2e]/95 py-4'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled 
+            ? `${isDark ? 'bg-[#1a1a2e]/98' : 'bg-white/98'} shadow-lg backdrop-blur-md py-3` 
+            : `${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} py-4`
         }`}
       >
         <div className="container mx-auto px-6">
           <nav className="flex justify-between items-center">
             <Link href="/" className="text-2xl md:text-3xl font-extrabold text-[#1dc9b7] font-montserrat tracking-tight">
-              Rabiu<span className="text-white font-semibold">SM</span>
+              Rabiu<span className={`${isDark ? 'text-white' : 'text-[#1a1a2e]'} font-semibold`}>SM</span>
             </Link>
 
             {/* Desktop Navigation */}
             <ul className="hidden md:flex items-center space-x-2 lg:space-x-5">
-              <li><Link href="/" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%] active:after:w-[70%] active:text-[#1dc9b7]">Home</Link></li>
-              <li><Link href="/about" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">About</Link></li>
-              <li><Link href="/portfolio" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Portfolio</Link></li>
-              <li><Link href="/services" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Services</Link></li>
-              <li><Link href="/skills" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Skills</Link></li>
+              {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
+                <li key={item}>
+                  <Link 
+                    href={item === 'Home' ? '/' : `/${item.toLowerCase()}`} 
+                    className={`nav-link ${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]`}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              <li className="flex items-center mx-2">
+                <button
+                  onClick={() => setBgMood(prev => prev === 'dark' ? 'light' : 'dark')}
+                  className={`relative w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${isDark ? 'bg-[#202020]' : 'bg-gray-300'}`}
+                  aria-label="Toggle background mood"
+                >
+                  <div className={`absolute left-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-7' : 'translate-x-0'}`}>
+                    <i className={`fas ${isDark ? 'fa-moon text-[#1a1a2e]' : 'fa-sun text-yellow-500'} text-[10px]`}></i>
+                  </div>
+                </button>
+              </li>
               <li>
                 <Link
                   href="/contact"
@@ -206,7 +230,7 @@ export default function Home() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-white text-2xl focus:outline-none z-50"
+              className={`md:hidden ${isDark ? 'text-white' : 'text-[#1a1a2e]'} text-2xl focus:outline-none z-50`}
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
@@ -217,12 +241,29 @@ export default function Home() {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden fixed inset-0 bg-[#1a1a2e]/95 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-6 text-xl">
-              <Link href="/" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Home</Link>
-              <Link href="/about" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>About</Link>
-              <Link href="/portfolio" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Portfolio</Link>
-              <Link href="/services" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Services</Link>
-              <Link href="/skills" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Skills</Link>
+            <div className={`md:hidden fixed inset-0 ${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-6 text-xl`}>
+              {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
+                <Link 
+                  key={item}
+                  href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}  
+                  className={`${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition`} 
+                  onClick={closeMenu}
+                >
+                  {item}
+                </Link>
+              ))}
+              <div className="flex items-center gap-4 py-2">
+                <span className={`text-base font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{isDark ? 'Dark Mode' : 'Light Mode'}</span>
+                <button
+                  onClick={() => setBgMood(prev => prev === 'dark' ? 'light' : 'dark')}
+                  className={`relative w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${isDark ? 'bg-[#202020]' : 'bg-gray-300'}`}
+                  aria-label="Toggle background mood"
+                >
+                  <div className={`absolute left-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-7' : 'translate-x-0'}`}>
+                    <i className={`fas ${isDark ? 'fa-moon text-[#1a1a2e]' : 'fa-sun text-yellow-500'} text-[10px]`}></i>
+                  </div>
+                </button>
+              </div>
               <Link href="/contact" className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold" onClick={closeMenu}>Let's Talk</Link>
             </div>
           )}
@@ -233,20 +274,24 @@ export default function Home() {
       <main className="pt-16">
         {/* Hero Section */}
         <section
-          className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: 'linear-gradient(135deg, rgba(26,26,46,0.75) 0%, rgba(22,33,62,0.6) 100%), url(/assets/images/hero-bg-img.jpg)' }}
+          className={`relative py-28 md:py-36 bg-cover bg-center bg-fixed transition-colors duration-500`}
+          style={{ 
+            backgroundImage: isDark 
+              ? 'linear-gradient(135deg, rgba(26,26,46,0.75) 0%, rgba(22,33,62,0.6) 100%), url(/assets/images/hero-bg-img.jpg)' 
+              : 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,240,240,0.85) 100%), url(/assets/images/hero-bg-img.jpg)' 
+          }}
         >
           <div className="absolute inset-0 bg-radial-gradient pointer-events-none"></div>
           <div className="container mx-auto px-6 text-center relative z-10">
-            <h2 className="text-2xl md:text-3xl font-medium mb-2">I am <strong>Rabiu Sani Muhammad (Aljauromanee),</strong> a Mobile</h2>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat uppercase leading-tight mb-4">
+            <h2 className={`text-2xl md:text-3xl font-medium mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>I am <strong>Rabiu Sani Muhammad (Aljauromanee),</strong> a Mobile</h2>
+            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat uppercase leading-tight mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0">
                 {typedText}
               </span>
               <span className="block text-2xl md:text-3xl lg:text-4xl mt-2"> & <span className="text-[#1dc9b7]">Visual Brand Systems Designer</span></span>
             </h1>
 
-            <div className="inline-block bg-black/30 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 text-white/90 text-sm md:text-base mb-8">
+            <div className={`inline-block ${isDark ? 'bg-black/30' : 'bg-white/50'} backdrop-blur-sm px-6 py-3 rounded-full border ${isDark ? 'border-white/20 text-white/90' : 'border-gray-200 text-gray-800'} text-sm md:text-base mb-8`}>
               <i className="fas fa-mobile-alt mr-2 text-[#1dc9b7]"></i> Mobile Apps · Brand Design · UI/UX
             </div>
 
@@ -254,16 +299,16 @@ export default function Home() {
               <Link href="/portfolio" className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
                 <i className="fas fa-briefcase"></i> PROJECTS
               </Link>
-              <Link href="/skills" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+              <Link href="/skills" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
                 <i className="fas fa-code"></i> MY SKILLS
               </Link>
-              <Link href="/education" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+              <Link href="/education" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
                 <i className="fas fa-graduation-cap"></i> EDUCATION
               </Link>
-              <Link href="/package" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+              <Link href="/package" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
                 <i className="fas fa-comment"></i>PACKAGES
               </Link>
-              <Link href="/inquiry" className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2">
+              <Link href="/inquiry" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
                 <i className="fas fa-comment"></i> ENQUIRE
               </Link>
             </div>
@@ -271,17 +316,17 @@ export default function Home() {
         </section>
 
         {/* Introduction Section */}
-        <section className="container mx-auto px-6 py-16 md:py-20">
+        <section className={`container mx-auto px-6 py-16 md:py-20`}>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left column - content */}
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0">
+              <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-[#1a1a2e]'} mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0`}>
                 Code meets Creativity
               </h2>
-              <p className="text-gray-700 text-lg mb-4 leading-relaxed">
-                <strong>I specialize in bridging the gap between engineering and design.</strong> With a solid foundation in software engineering, focused on mobile application development, and a passion for visual brand systems design, I create products that are both technically robust and visually compelling. I have assisted startups and established organizations in developing high-performance iOS and Android applications using React Native, Flutter, and native technologies, while simultaneously crafting distinctive brand identities that capture their unique vision.
+              <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-lg mb-4 leading-relaxed`}>
+                <strong className={`${isDark ? 'text-white' : 'text-[#1a1a2e]'}`}>I specialize in bridging the gap between engineering and design.</strong> With a solid foundation in software engineering, focused on mobile application development, and a passion for visual brand systems design, I create products that are both technically robust and visually compelling. I have assisted startups and established organizations in developing high-performance iOS and Android applications using React Native, Flutter, and native technologies, while simultaneously crafting distinctive brand identities that capture their unique vision.
               </p>
-              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+              <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-lg mb-6 leading-relaxed`}>
                 My approach combines clean software architecture with strategic design thinking, ensuring that every solution I deliver is intuitive, scalable, and visually aligned with the brand it represents.
               </p>
 
@@ -303,7 +348,7 @@ export default function Home() {
 
                 <Link
                   href="/booking"
-                  className="btn-outline inline-flex items-center gap-2 border-2 border-[#0f9b8e] text-[#0f9b8e] px-8 py-4 rounded-lg font-semibold hover:bg-[#0f9b8e] hover:text-white transition-all duration-300 hover:-translate-y-1"
+                  className={`btn-outline inline-flex items-center gap-2 border-2 ${isDark ? 'border-[#0f9b8e] text-[#0f9b8e] hover:bg-[#0f9b8e] hover:text-white' : 'border-[#1dc9b7] text-[#1dc9b7] hover:bg-[#1dc9b7] hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:-translate-y-1`}
                 >
                   <i className="fas fa-mic"></i> Invite Me to Speak
                 </Link>
@@ -328,8 +373,8 @@ export default function Home() {
         </section>
 
         {/* Recent Work Section */}
-        <section className="container mx-auto px-6 py-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
+        <section className={`container mx-auto px-6 py-12`}>
+          <h2 className={`text-3xl md:text-4xl font-bold text-center ${isDark ? 'text-white' : 'text-[#1a1a2e]'} mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2`}>
             MY PROJECTS
           </h2>
 
@@ -342,7 +387,7 @@ export default function Home() {
                 className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
                   activeFilter === filter
                     ? 'bg-[#0f9b8e] text-white'
-                    : 'bg-[#0f9b8e]/10 text-[#0f9b8e] border border-[#0f9b8e]/20 hover:bg-[#0f9b8e] hover:text-white'
+                    : `bg-[#0f9b8e]/10 text-[#0f9b8e] border border-[#0f9b8e]/20 hover:bg-[#0f9b8e] hover:text-white`
                 }`}
               >
                 {filter === 'all' ? 'All' : filter === 'mobile' ? 'Mobile Apps' : filter === 'branding' ? 'Brand Identity' : filter === 'uiux' ? 'UI/UX' : 'Web Development'}
@@ -352,7 +397,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredWork.map((item, idx) => (
-              <div key={idx} className="work-item bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-4 group">
+              <div key={idx} className={`work-item ${isDark ? 'bg-[#1a1a2e] border border-white/5' : 'bg-white'} rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-4 group`}>
                 <div className="relative h-64 overflow-hidden">
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f9b8e]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
@@ -360,8 +405,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-xl font-bold text-[#16213e] mb-3">{item.title}</h3>
-                  <p className="text-gray-600 mb-6">{item.description}</p>
+                  <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-[#16213e]'} mb-3`}>{item.title}</h3>
+                  <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'} mb-6`}>{item.description}</p>
                   <Link
                     href={item.platformLink}
                     target="_blank"
@@ -383,9 +428,9 @@ export default function Home() {
         </section>
 
         {/* Impact Stats Section */}
-        <section className="bg-white py-12">
+        <section className={`${isDark ? 'bg-[#0f111a]' : 'bg-white'} py-12 transition-colors duration-500`}>
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-[#1a1a2e] mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2">
+            <h2 className={`text-3xl md:text-4xl font-bold text-center ${isDark ? 'text-white' : 'text-[#1a1a2e]'} mb-12 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2`}>
               Impact by numbers
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
@@ -395,7 +440,7 @@ export default function Home() {
                 { target: 3, suffix: '+', label: 'Years Experience' },
                 { target: 4, suffix: '+', label: 'Happy Clients' },
               ].map((stat, idx) => (
-                <div key={idx} className="stat-item bg-gray-100 p-8 rounded-xl text-center transition-all duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:border-[#1dc9b7] border border-transparent shadow-sm">
+                <div key={idx} className={`stat-item ${isDark ? 'bg-[#1a1a2e] hover:bg-[#20203a]' : 'bg-gray-100 hover:bg-gray-200'} p-8 rounded-xl text-center transition-all duration-300 hover:-translate-y-2 hover:border-[#1dc9b7] border border-transparent shadow-sm`}>
                   <h3 className="text-4xl font-bold text-[#0f9b8e] mb-2">
                     <span
                       ref={(el) => { statsRef.current[idx] = el; }}
@@ -406,7 +451,7 @@ export default function Home() {
                       0
                     </span>
                   </h3>
-                  <p className="text-gray-700 uppercase tracking-wider text-sm font-medium">{stat.label}</p>
+                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} uppercase tracking-wider text-sm font-medium`}>{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -435,10 +480,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      
-
-                  {/* Footer */}
-      <footer className="bg-[#1a1a2e] text-white pt-16 pb-8 relative overflow-hidden">
+      <footer className={`${isDark ? 'bg-black' : 'bg-[#1a1a2e]'} text-white pt-16 pb-8 relative overflow-hidden transition-colors duration-500`}>
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-size-[30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -452,7 +494,7 @@ export default function Home() {
                 {['whatsapp', 'github', 'linkedin', 'dribbble', 'instagram'].map((social) => (
                   <a
                     key={social}
-                    href="#"  // Replace with your actual profile URLs
+                    href="#"
                     className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1dc9b7] hover:-translate-y-1 transition-all duration-300 border border-white/20"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -467,31 +509,13 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Quick Links</h3>
               <ul className="space-y-3">
-                <li>
-                  <Link href="/" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                    <i className="fas fa-chevron-right text-xs"></i> Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                    <i className="fas fa-chevron-right text-xs"></i> About Me
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/portfolio" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                    <i className="fas fa-chevron-right text-xs"></i> Portfolio
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/skills" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                    <i className="fas fa-chevron-right text-xs"></i> Skills
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                    <i className="fas fa-chevron-right text-xs"></i> Services
-                  </Link>
-                </li>
+                {['Home', 'About Me', 'Portfolio', 'Skills', 'Services'].map((link) => (
+                  <li key={link}>
+                    <Link href={link === 'Home' ? '/' : `/${link.replace(' ', '').toLowerCase()}`} className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
+                      <i className="fas fa-chevron-right text-xs"></i> {link}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -522,35 +546,23 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Column 4: Services (now linked) */}
+            {/* Column 4: Services */}
             <div>
               <h3 className="text-xl font-semibold text-white mb-5">Services</h3>
               <ul className="space-y-3">
-                <li>
-                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                    <i className="fas fa-mobile-alt w-5"></i> Mobile App Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                    <i className="fas fa-paint-brush w-5"></i> Brand Identity Design
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                    <i className="fas fa-code w-5"></i> Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/services" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                    <i className="fas fa-pencil-ruler w-5"></i> UI/UX Design
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/inquiry" className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                    <i className="fas fa-chart-line w-5"></i> Consulting
-                  </Link>
-                </li>
+                {[
+                  { icon: 'mobile-alt', title: 'Mobile App Development' },
+                  { icon: 'paint-brush', title: 'Brand Identity Design' },
+                  { icon: 'code', title: 'Web Development' },
+                  { icon: 'pencil-ruler', title: 'UI/UX Design' },
+                  { icon: 'chart-line', title: 'Consulting' },
+                ].map((s) => (
+                  <li key={s.title}>
+                    <Link href={s.title === 'Consulting' ? '/inquiry' : '/services'} className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
+                      <i className={`fas fa-${s.icon} w-5`}></i> {s.title}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -560,8 +572,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/*end footer*/}
 
       {/* Back to Top Button */}
       <button
@@ -581,6 +591,6 @@ export default function Home() {
         src="https://embed.tawk.to/65f1c2c89131ed19d976fd72/1hp6cmmpr"
         onError={(e) => console.error('Tawk.to script failed to load', e)} 
       />
-    </>
+    </div>
   );
 }
