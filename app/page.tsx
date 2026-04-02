@@ -6,11 +6,10 @@ import Script from 'next/script';
 
 // Static data moved outside component to avoid recreation on each render
 const slideImages = [
-  '/assets/images/Rabiuuuu.jpeg',
+  '/assets/images/rabiu22.png',
   '/assets/images/about-1.png',
   '/assets/images/rabiu-2.png',
   '/assets/images/CTA55.png',
-  '/assets/images/about-1.png',
   '/assets/images/rsmm.jpeg',
 ];
 
@@ -90,7 +89,7 @@ export default function Home() {
         index1++;
       } else {
         clearInterval(timer1);
-        
+
         timeoutBeforeSecondLine = setTimeout(() => {
           timer2 = setInterval(() => {
             if (index2 < targetText2.length) {
@@ -316,7 +315,7 @@ export default function Home() {
                   I am <span className="font-bold">Rabiu Sani Muhammad</span> <br className="block md:hidden" />
                   <span className="font-bold">(Aljauromanee)</span>, a Mobile
                 </p>
-                <h1 className="text-[1.4rem] min-[375px]:text-2xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] whitespace-nowrap text-center md:text-left font-extrabold font-['Montserrat'] text-white leading-tight tracking-wider uppercase mt-2 mb-5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] w-full min-h-[1.2em]">
+                <h1 className="text-[1.4rem] min-[375px]:text-2xl sm:text-4xl lg:text-4xl xl:text-5xl 2xl:text-[3.5rem] whitespace-nowrap text-center md:text-left font-extrabold font-['Montserrat'] text-white leading-tight tracking-wider uppercase mt-2 mb-5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] w-full min-h-[1.2em]">
                   {typedText}
                   {typedText2.length === 0 && (
                     <span className="inline-block animate-pulse w-[3px] md:w-[6px] h-[0.8em] bg-white ml-2 mb-[-2px] align-baseline drop-shadow-md"></span>
@@ -536,94 +535,10 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className={`${isDark ? 'bg-black' : 'bg-[#1a1a2e]'} text-white pt-16 pb-8 relative overflow-hidden transition-colors duration-500`}>
+      <footer className={`${isDark ? 'bg-black' : 'bg-[#1a1a2e]'} text-white py-8 relative overflow-hidden transition-colors duration-500`}>
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-size-[30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            {/* Column 1: About */}
-            <div>
-              <h3 className="text-2xl font-bold text-[#1dc9b7] mb-5">Rabiu Sani Muhammad</h3>
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                Mobile Software Engineer & Visual Brand Systems Designer. I create high‑performance apps and distinctive brand identities for forward‑thinking businesses.
-              </p>
-              <div className="flex space-x-3">
-                {['whatsapp', 'github', 'linkedin', 'dribbble', 'instagram'].map((social) => (
-                  <a
-                    key={social}
-                    href="#"
-                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1dc9b7] hover:-translate-y-1 transition-all duration-300 border border-white/20"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i className={`fab fa-${social}`}></i>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Column 2: Quick Links */}
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-5">Quick Links</h3>
-              <ul className="space-y-3">
-                {['Home', 'About Me', 'Portfolio', 'Skills', 'Services'].map((link) => (
-                  <li key={link}>
-                    <Link href={link === 'Home' ? '/' : `/${link.replace(' ', '').toLowerCase()}`} className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2">
-                      <i className="fas fa-chevron-right text-xs"></i> {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 3: Contact Info */}
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-5">Contact Info</h3>
-              <ul className="space-y-3">
-                <li>
-                  <a href="mailto:aljauromanee@gmail.com" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-envelope w-5"></i> aljauromanee@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:+2349123234431" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-phone-alt w-5"></i> +234 9123234431
-                  </a>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-map-marker-alt w-5"></i> FCT, Abuja, Nigeria
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-globe w-5"></i> Available Worldwide
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Services */}
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-5">Services</h3>
-              <ul className="space-y-3">
-                {[
-                  { icon: 'mobile-alt', title: 'Mobile App Development' },
-                  { icon: 'paint-brush', title: 'Brand Identity Design' },
-                  { icon: 'code', title: 'Web Development' },
-                  { icon: 'pencil-ruler', title: 'UI/UX Design' },
-                  { icon: 'chart-line', title: 'Consulting' },
-                ].map((s) => (
-                  <li key={s.title}>
-                    <Link href={s.title === 'Consulting' ? '/inquiry' : '/services'} className="flex items-center gap-3 text-gray-300 hover:text-[#1dc9b7] transition">
-                      <i className={`fas fa-${s.icon} w-5`}></i> {s.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="text-center text-gray-400 text-sm pt-8 border-t border-white/10">
+          <div className="text-center text-gray-400 text-sm">
             <p>&copy; {new Date().getFullYear()} Rabiu Sani Muhammad (Aljauromanee). All Rights Reserved. | Mobile Software Engineer & Visual Brand Systems Designer</p>
           </div>
         </div>

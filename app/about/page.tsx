@@ -6,7 +6,9 @@ import Link from 'next/link';
 export default function AboutPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0); // slideshow state
+  const [bgMood, setBgMood] = useState<'dark' | 'light'>('dark'); // New background mood state
 
   // Slideshow images
   const slideImages = [
@@ -20,6 +22,7 @@ export default function AboutPage() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      setShowBackToTop(window.scrollY > 300);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -101,29 +104,46 @@ export default function AboutPage() {
     },
   ];
 
+  const isDark = bgMood === 'dark';
+
   return (
-    <>
+    <div className={`transition-colors duration-500 min-h-screen ${isDark ? 'bg-[#121225]' : 'bg-gray-50'}`}>
       {/* Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-[#1a1a2e]/98 py-3 shadow-lg backdrop-blur-md'
-            : 'bg-[#1a1a2e]/95 py-4'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? `${isDark ? 'bg-[#1a1a2e]/98' : 'bg-white/98'} shadow-lg backdrop-blur-md py-3`
+          : `${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} py-4`
+          }`}
       >
         <div className="container mx-auto px-6">
           <nav className="flex justify-between items-center">
             <Link href="/" className="text-2xl md:text-3xl font-extrabold text-[#1dc9b7] font-montserrat tracking-tight">
-              Rabiu<span className="text-white font-semibold">SM</span>
+              Rabiu<span className={`${isDark ? 'text-white' : 'text-[#1a1a2e]'} font-semibold`}>SM</span>
             </Link>
 
             {/* Desktop Navigation */}
             <ul className="hidden md:flex items-center space-x-2 lg:space-x-5">
-              <li><Link href="/" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Home</Link></li>
-              <li><Link href="/about" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%] active:after:w-[70%] active:text-[#1dc9b7]">About</Link></li>
-              <li><Link href="/portfolio" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Portfolio</Link></li>
-              <li><Link href="/services" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Services</Link></li>
-              <li><Link href="/skills" className="nav-link text-white hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]">Skills</Link></li>
+              {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
+                <li key={item}>
+                  <Link
+                    href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                    className={`nav-link ${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%] ${item === 'About' ? 'after:w-[70%] text-[#1dc9b7]' : ''}`}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+              <li className="flex items-center mx-2">
+                <button
+                  onClick={() => setBgMood(prev => prev === 'dark' ? 'light' : 'dark')}
+                  className={`relative w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${isDark ? 'bg-[#202020]' : 'bg-gray-300'}`}
+                  aria-label="Toggle background mood"
+                >
+                  <div className={`absolute left-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-7' : 'translate-x-0'}`}>
+                    <i className={`fas ${isDark ? 'fa-moon text-[#1a1a2e]' : 'fa-sun text-yellow-500'} text-[10px]`}></i>
+                  </div>
+                </button>
+              </li>
               <li>
                 <Link
                   href="/contact"
@@ -136,7 +156,7 @@ export default function AboutPage() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-white text-2xl focus:outline-none z-50"
+              className={`md:hidden ${isDark ? 'text-white' : 'text-[#1a1a2e]'} text-2xl focus:outline-none z-50`}
               onClick={toggleMenu}
               aria-label="Toggle menu"
             >
@@ -146,12 +166,29 @@ export default function AboutPage() {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden fixed inset-0 bg-[#1a1a2e]/95 backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-6 text-xl">
-              <Link href="/" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Home</Link>
-              <Link href="/about" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>About</Link>
-              <Link href="/portfolio" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Portfolio</Link>
-              <Link href="/services" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Services</Link>
-              <Link href="/skills" className="text-white hover:text-[#1dc9b7] transition" onClick={closeMenu}>Skills</Link>
+            <div className={`md:hidden fixed inset-0 ${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-6 text-xl`}>
+              {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
+                <Link
+                  key={item}
+                  href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                  className={`${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition`}
+                  onClick={closeMenu}
+                >
+                  {item}
+                </Link>
+              ))}
+              <div className="flex items-center gap-4 py-2">
+                <span className={`text-base font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{isDark ? 'Dark Mode' : 'Light Mode'}</span>
+                <button
+                  onClick={() => setBgMood(prev => prev === 'dark' ? 'light' : 'dark')}
+                  className={`relative w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-300 focus:outline-none ${isDark ? 'bg-[#202020]' : 'bg-gray-300'}`}
+                  aria-label="Toggle background mood"
+                >
+                  <div className={`absolute left-1 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-7' : 'translate-x-0'}`}>
+                    <i className={`fas ${isDark ? 'fa-moon text-[#1a1a2e]' : 'fa-sun text-yellow-500'} text-[10px]`}></i>
+                  </div>
+                </button>
+              </div>
               <Link href="/contact" className="bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-3 rounded-full font-semibold" onClick={closeMenu}>Let's Talk</Link>
             </div>
           )}
@@ -180,16 +217,16 @@ export default function AboutPage() {
         <section className="container mx-auto px-6 py-20">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#1a1a2e] mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0">
-                I'm Rabiu Sani Muhammad (Aljauromanee)
+              <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-[#1a1a2e]'} mb-6 relative pb-4 after:content-[''] after:absolute after:w-20 after:h-1 after:bg-gradient-to-r after:from-[#0f9b8e] after:to-[#1dc9b7] after:bottom-0 after:left-0`}>
+                I am Rabiu SM (Aljauromanee)
               </h2>
-              <p className="text-gray-700 text-lg mb-4 leading-relaxed">
+              <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-lg mb-4 leading-relaxed`}>
                 My journey began with a fascination for how things work — both in code and in visual communication. With a degree in Software Engineering and a natural eye for design, I've spent the last 7+ years bridging the gap between technical functionality and aesthetic excellence.
               </p>
-              <p className="text-gray-700 text-lg mb-4 leading-relaxed">
+              <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-lg mb-4 leading-relaxed`}>
                 Based in Abuja, Nigeria, I've had the privilege of working with clients across Africa, Europe, and the Middle East. My work ranges from crafting minimalist brand identities to architecting complex mobile applications. I believe that great design is invisible — it feels intuitive, works flawlessly, and leaves a lasting impression.
               </p>
-              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+              <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} text-lg mb-6 leading-relaxed`}>
                 Today, I lead brand and product design projects that help startups and established businesses tell their stories authentically and connect with their audiences on a deeper level.
               </p>
               <div className="flex flex-wrap gap-3">
@@ -303,89 +340,24 @@ export default function AboutPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#1a1a2e] text-white pt-16 pb-8 relative overflow-hidden">
+      <footer className={`${isDark ? 'bg-black' : 'bg-[#1a1a2e]'} text-white py-8 relative overflow-hidden transition-colors duration-500`}>
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_50%,rgba(15,155,142,0.05)_50%)] bg-[length:30px_30px]"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-            <div>
-              <h3 className="text-2xl font-bold text-[#1dc9b7] mb-5">Rabiu Sani Muhammad</h3>
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                Mobile software engineer & visual brand system designer — creating identities that speak and systems that perform.
-              </p>
-              <div className="flex space-x-3">
-                {['whatsapp', 'dribbble', 'linkedin-in', 'instagram', 'twitter'].map((social) => (
-                  <a
-                    key={social}
-                    href="#"
-                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#1dc9b7] hover:-translate-y-1 transition-all duration-300 border border-white/20"
-                  >
-                    <i className={`fab fa-${social}`}></i>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-5">Quick Links</h3>
-              <ul className="space-y-3">
-                {['Home', 'About Me', 'Portfolio', 'Skills', 'Services', 'Contact'].map((item, idx) => {
-                  const path = item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '')}`;
-                  return (
-                    <li key={idx}>
-                      <Link
-                        href={path}
-                        className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-2"
-                      >
-                        <i className="fas fa-chevron-right text-xs"></i> {item}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-5">Contact Info</h3>
-              <ul className="space-y-3">
-                <li>
-                  <a href="mailto:aljauromanee@gmail.com" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-envelope w-5"></i> aljauromanee@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:+2349123234431" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-phone-alt w-5"></i> +234 9123234431
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-map-marker-alt w-5"></i> FCT, Abuja, Nigeria
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact" className="text-gray-300 hover:text-[#1dc9b7] transition flex items-center gap-3">
-                    <i className="fas fa-globe w-5"></i> Available for International Projects
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Back to Top Button */}
-          <div className="text-center mb-6">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-            >
-              <i className="fas fa-arrow-up"></i> Back to Navbar
-            </button>
-          </div>
-
-          <div className="text-center text-gray-400 text-sm pt-8 border-t border-white/10">
+          <div className="text-center text-gray-400 text-sm">
             <p>&copy; {new Date().getFullYear()} Rabiu Sani Muhammad (Aljauromanee). All Rights Reserved. | Mobile · Brand · System</p>
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white shadow-lg flex items-center justify-center text-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl z-50 ${showBackToTop ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
+        aria-label="Back to top"
+      >
+        <i className="fas fa-arrow-up"></i>
+      </button>
 
       {/* Scoped styles for timeline visibility */}
       <style jsx>{`
@@ -402,6 +374,6 @@ export default function AboutPage() {
           background-image: url(/assets/images/softie-bg.jpg);
         }
       `}</style>
-    </>
+    </div>
   );
 }
