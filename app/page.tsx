@@ -6,16 +6,18 @@ import Script from 'next/script';
 
 // Static data moved outside component to avoid recreation on each render
 const slideImages = [
-  '/assets/images/rsmm.jpeg',
+  '/assets/images/Rabiuuuu.jpeg',
   '/assets/images/about-1.png',
   '/assets/images/rabiu-2.png',
   '/assets/images/CTA55.png',
+  '/assets/images/about-1.png',
+  '/assets/images/rsmm.jpeg',
 ];
 
 const workItems = [
   {
     category: 'mobile',
-    title: 'Eco Global Renewable Energy Limited – Mobile App (Working on this Project)',
+    title: 'Eco Global Renewable Energy Limited – Mobile App (I am working on this Project)',
     description:
       'Cross‑platform mobile banking app with biometric login, real‑time transactions, and an intuitive dashboard. Built with React Native + Node.js.',
     image: '/assets/images/solar-mobile.png',
@@ -48,6 +50,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [typedText, setTypedText] = useState('');
+  const [typedText2, setTypedText2] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [bgMood, setBgMood] = useState<'dark' | 'light'>('dark'); // New background mood state
@@ -68,25 +71,49 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Typing effect for "Software Engineer"
+  // Typing effect for "Software Engineer" and subtitle
   useEffect(() => {
-    const targetText = 'Software Engineer';
-    let index = 0;
+    const targetText1 = 'SOFTWARE ENGINEER';
+    const targetText2 = '& VISUAL BRAND SYSTEMS DESIGNER';
+    let index1 = 0;
+    let index2 = 0;
+    let timer1: NodeJS.Timeout;
+    let timer2: NodeJS.Timeout;
+    let timeoutBeforeSecondLine: NodeJS.Timeout;
+
     setTypedText('');
-    const timer = setInterval(() => {
-      if (index < targetText.length) {
-        setTypedText(targetText.slice(0, index + 1));
-        index++;
+    setTypedText2('');
+
+    timer1 = setInterval(() => {
+      if (index1 < targetText1.length) {
+        setTypedText(targetText1.slice(0, index1 + 1));
+        index1++;
       } else {
-        clearInterval(timer);
+        clearInterval(timer1);
+        
+        timeoutBeforeSecondLine = setTimeout(() => {
+          timer2 = setInterval(() => {
+            if (index2 < targetText2.length) {
+              setTypedText2(targetText2.slice(0, index2 + 1));
+              index2++;
+            } else {
+              clearInterval(timer2);
+            }
+          }, 70);
+        }, 300);
       }
-    }, 150);
-    return () => clearInterval(timer);
+    }, 110);
+
+    return () => {
+      clearInterval(timer1);
+      clearInterval(timer2);
+      clearTimeout(timeoutBeforeSecondLine);
+    };
   }, []);
 
   // Slideshow effect – properly cleaned up
   useEffect(() => {
-    const SLIDE_INTERVAL = 3000;
+    const SLIDE_INTERVAL = 1000;
     let intervalId: NodeJS.Timeout;
 
     const timeoutId = setTimeout(() => {
@@ -178,16 +205,15 @@ export default function Home() {
 
   return (
     <div className={`transition-colors duration-500 min-h-screen ${isDark ? 'bg-[#121225]' : 'bg-gray-50'}`}>
-      
+
 
 
       {/* Header */}
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled 
-            ? `${isDark ? 'bg-[#1a1a2e]/98' : 'bg-white/98'} shadow-lg backdrop-blur-md py-3` 
-            : `${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} py-4`
-        }`}
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled
+          ? `${isDark ? 'bg-[#1a1a2e]/98' : 'bg-white/98'} shadow-lg backdrop-blur-md py-3`
+          : `${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} py-4`
+          }`}
       >
         <div className="container mx-auto px-6">
           <nav className="flex justify-between items-center">
@@ -199,8 +225,8 @@ export default function Home() {
             <ul className="hidden md:flex items-center space-x-2 lg:space-x-5">
               {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
                 <li key={item}>
-                  <Link 
-                    href={item === 'Home' ? '/' : `/${item.toLowerCase()}`} 
+                  <Link
+                    href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                     className={`nav-link ${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition px-3 py-2 text-sm lg:text-base font-medium relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bg-[#1dc9b7] after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:transition-all after:duration-300 hover:after:w-[70%]`}
                   >
                     {item}
@@ -243,10 +269,10 @@ export default function Home() {
           {isMenuOpen && (
             <div className={`md:hidden fixed inset-0 ${isDark ? 'bg-[#1a1a2e]/95' : 'bg-white/95'} backdrop-blur-md z-40 flex flex-col items-center justify-center space-y-6 text-xl`}>
               {['Home', 'About', 'Portfolio', 'Services', 'Skills'].map((item) => (
-                <Link 
+                <Link
                   key={item}
-                  href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}  
-                  className={`${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition`} 
+                  href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                  className={`${isDark ? 'text-white' : 'text-gray-800'} hover:text-[#1dc9b7] transition`}
                   onClick={closeMenu}
                 >
                   {item}
@@ -274,43 +300,83 @@ export default function Home() {
       <main className="pt-16">
         {/* Hero Section */}
         <section
-          className={`relative py-28 md:py-36 bg-cover bg-center bg-fixed transition-colors duration-500`}
-          style={{ 
-            backgroundImage: isDark 
-              ? 'linear-gradient(135deg, rgba(26,26,46,0.75) 0%, rgba(22,33,62,0.6) 100%), url(/assets/images/hero-bg-img.jpg)' 
-              : 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,240,240,0.85) 100%), url(/assets/images/hero-bg-img.jpg)' 
-          }}
+          className="relative pt-20 pb-20 md:pt-40 md:pb-32 bg-cover bg-center overflow-hidden"
+          style={{ backgroundImage: "url('/assets/images/hero-bg-img.jpg')" }}
         >
-          <div className="absolute inset-0 bg-radial-gradient pointer-events-none"></div>
-          <div className="container mx-auto px-6 text-center relative z-10">
-            <h2 className={`text-2xl md:text-3xl font-medium mb-2 ${isDark ? 'text-white' : 'text-gray-800'}`}>I am <strong>Rabiu Sani Muhammad (Aljauromanee),</strong> a Mobile</h2>
-            <h1 className={`text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat uppercase leading-tight mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0">
-                {typedText}
-              </span>
-              <span className="block text-2xl md:text-3xl lg:text-4xl mt-2"> & <span className="text-[#1dc9b7]">Visual Brand Systems Designer</span></span>
-            </h1>
+          {/* Dark overlay mirroring the services page */}
+          <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+          {/* Subtle pattern background overlay */}
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
 
-            <div className={`inline-block ${isDark ? 'bg-black/30' : 'bg-white/50'} backdrop-blur-sm px-6 py-3 rounded-full border ${isDark ? 'border-white/20 text-white/90' : 'border-gray-200 text-gray-800'} text-sm md:text-base mb-8`}>
-              <i className="fas fa-mobile-alt mr-2 text-[#1dc9b7]"></i> Mobile Apps · Brand Design · UI/UX
+          <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center relative z-10 gap-12">
+            {/* Left Side: Text and Buttons */}
+            <div className="w-full md:w-1/2 text-left relative z-20">
+              <div className="flex flex-col items-center md:items-start text-center md:text-left w-full mb-10">
+                <p className="text-[1.05rem] sm:text-xl lg:text-2xl text-white mb-1 leading-snug font-sans tracking-wide text-center md:text-left">
+                  I am <span className="font-bold">Rabiu Sani Muhammad</span> <br className="block md:hidden" />
+                  <span className="font-bold">(Aljauromanee)</span>, a Mobile
+                </p>
+                <h1 className="text-[1.4rem] min-[375px]:text-2xl sm:text-4xl lg:text-5xl xl:text-[3.5rem] whitespace-nowrap text-center md:text-left font-extrabold font-['Montserrat'] text-white leading-tight tracking-wider uppercase mt-2 mb-5 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] w-full min-h-[1.2em]">
+                  {typedText}
+                  {typedText2.length === 0 && (
+                    <span className="inline-block animate-pulse w-[3px] md:w-[6px] h-[0.8em] bg-white ml-2 mb-[-2px] align-baseline drop-shadow-md"></span>
+                  )}
+                </h1>
+
+                {/* Visual Line */}
+                <div className="w-full max-w-3xl h-[2px] bg-gradient-to-r from-transparent via-[#ffffff]/80 to-transparent md:from-[#1dc9b7]/80 md:via-[#1dc9b7]/80 md:to-transparent my-4 shadow-[0_0_8px_rgba(29,201,183,0.5)]"></div>
+
+                <h2 className="text-[1.05rem] min-[375px]:text-[1.2rem] sm:text-3xl lg:text-4xl text-center md:text-left font-extrabold font-['Montserrat'] text-white leading-tight tracking-wider uppercase mb-8 drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)] w-full min-h-[1.2em]">
+                  {typedText2}
+                  {typedText2.length > 0 && (
+                    <span className="inline-block animate-pulse w-[3px] md:w-[6px] h-[0.8em] bg-white ml-2 mb-[-2px] align-baseline drop-shadow-md"></span>
+                  )}
+                </h2>
+
+                <div className="inline-flex items-center gap-3 bg-[#3a3f4e]/90 hover:bg-[#43495a] backdrop-blur-md border border-white/20 px-6 py-2.5 rounded-full text-white/95 text-sm sm:text-base font-semibold shadow-xl transition-all self-center md:self-start">
+                  <i className="fas fa-mobile-alt text-[#1dc9b7]"></i>
+                  <span className="tracking-wide">Mobile Apps &middot; Brand Design &middot; UI/UX</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+
+                <Link href="/portfolio" className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-3.5 rounded-lg font-semibold transition-all backdrop-blur-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  Portfolio
+                </Link>
+                <Link href="/education" className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-3.5 rounded-lg font-semibold transition-all backdrop-blur-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  Education
+                </Link>
+                <Link href="/skills" className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-3.5 rounded-lg font-semibold transition-all backdrop-blur-sm shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  My Skills
+                </Link>
+                <Link href="/package" className="bg-[#ffffff] hover:bg-[#ebfcf9] text-[#1dc9b7] px-8 py-3.5 rounded-lg font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  My Packages
+                </Link>
+              </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 justify-center mt-8">
-              <Link href="/portfolio" className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-                <i className="fas fa-briefcase"></i> PROJECTS
-              </Link>
-              <Link href="/skills" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
-                <i className="fas fa-code"></i> MY SKILLS
-              </Link>
-              <Link href="/education" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
-                <i className="fas fa-graduation-cap"></i> EDUCATION
-              </Link>
-              <Link href="/package" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
-                <i className="fas fa-comment"></i>PACKAGES
-              </Link>
-              <Link href="/inquiry" className={`btn-outline border-2 ${isDark ? 'border-white text-white hover:bg-white hover:text-[#1a1a2e]' : 'border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2`}>
-                <i className="fas fa-comment"></i> ENQUIRE
-              </Link>
+            {/* Right Side: Image with tilted cards effect */}
+            <div className="w-full md:w-1/2 flex justify-center md:justify-end relative mt-12 md:mt-0 px-4 sm:px-8 z-10 xl:pl-10">
+              <div className="relative w-full aspect-[4/3] max-w-xl xl:max-w-[40rem] transform hover:scale-105 transition-transform duration-700 ease-out">
+                {/* Back layers with glassmorphism */}
+                <div className="absolute inset-0 border-[3px] border-white/30 bg-white/5 rounded-[1.5rem] transform rotate-[16deg] translate-x-4 scale-[1.05] shadow-xl backdrop-blur-sm z-0"></div>
+                <div className="absolute inset-0 border-[3px] border-white/40 bg-white/10 rounded-[1.5rem] transform -rotate-[12deg] -translate-x-4 scale-[1.02] shadow-xl backdrop-blur-sm z-10"></div>
+                <div className="absolute inset-0 border-[3px] border-white/50 bg-white/20 rounded-[1.5rem] transform rotate-[8deg] translate-y-3 scale-[1.08] shadow-2xl backdrop-blur-sm z-20"></div>
+
+                {/* Front Image Layer */}
+                <div className="absolute inset-0 border-[6px] sm:border-[8px] border-white rounded-[1.5rem] overflow-hidden transform -rotate-[4deg] scale-105 shadow-2xl z-30 transition-all duration-500 hover:-rotate-1 hover:scale-[1.1] cursor-pointer">
+                  {slideImages.map((src, index) => (
+                    <div
+                      key={src}
+                      className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+                        }`}
+                    >
+                      <img src={src} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -355,18 +421,9 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right column - slideshow */}
+            {/* Right column - image */}
             <div className="relative group w-full h-64 sm:h-80 md:h-96 lg:h-125 rounded-2xl overflow-hidden shadow-2xl">
-              {slideImages.map((src, index) => (
-                <div
-                  key={src}
-                  className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <img src={src} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
-                </div>
-              ))}
+              <img src="/assets/images/rabiu-2.png" alt="Rabiu Sani Muhammad" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-tr from-[#0f9b8e]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
             </div>
           </div>
@@ -384,11 +441,10 @@ export default function Home() {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  activeFilter === filter
-                    ? 'bg-[#0f9b8e] text-white'
-                    : `bg-[#0f9b8e]/10 text-[#0f9b8e] border border-[#0f9b8e]/20 hover:bg-[#0f9b8e] hover:text-white`
-                }`}
+                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${activeFilter === filter
+                  ? 'bg-[#0f9b8e] text-white'
+                  : `bg-[#0f9b8e]/10 text-[#0f9b8e] border border-[#0f9b8e]/20 hover:bg-[#0f9b8e] hover:text-white`
+                  }`}
               >
                 {filter === 'all' ? 'All' : filter === 'mobile' ? 'Mobile Apps' : filter === 'branding' ? 'Brand Identity' : filter === 'uiux' ? 'UI/UX' : 'Web Development'}
               </button>
@@ -576,9 +632,8 @@ export default function Home() {
       {/* Back to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white shadow-lg flex items-center justify-center text-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl z-50 ${
-          showBackToTop ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white shadow-lg flex items-center justify-center text-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl z-50 ${showBackToTop ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
         aria-label="Back to top"
       >
         <i className="fas fa-arrow-up"></i>
@@ -589,7 +644,7 @@ export default function Home() {
         id="tawk-to-script"
         strategy="lazyOnload"
         src="https://embed.tawk.to/65f1c2c89131ed19d976fd72/1hp6cmmpr"
-        onError={(e) => console.error('Tawk.to script failed to load', e)} 
+        onError={(e) => console.error('Tawk.to script failed to load', e)}
       />
     </div>
   );

@@ -6,14 +6,15 @@ import { useState } from "react";
 export default function PackagesPage() {
   const [activeTab, setActiveTab] = useState<"mobile" | "web" | "desktop">("mobile");
 
-  // Package data for each platform – all prices in Nigerian Naira (₦)
+  // Package data for each platform – International standard pricing (USD)
   const packages = {
     mobile: {
       corporate: {
         name: "Corporate",
-        price: "₦300,000 to ₦750,000",
+        price: "$3,000 to $6,000",
         description: "Depend on the project - One‑time project fee",
         features: [
+          "<strong>Tech Stack</strong>: React Native (Expo) or Flutter",
           "<strong>App Strategy Workshop</strong> – 2 hours",
           "<strong>Wireframes</strong> – key screens (up to 10)",
           "<strong>UI Design</strong> – up to 15 screens (iOS/Android)",
@@ -30,10 +31,11 @@ export default function PackagesPage() {
       },
       professional: {
         name: "Professional",
-        price: "₦1,000,000 to ₦3,000,000",
+        price: "$7,500 to $15,000",
         description: "Complete app design system",
         features: [
           "<strong>Everything in Corporate</strong> – plus:",
+          "<strong>Tech Stack</strong>: React Native (CLI) / Node.js Backend",
           "<strong>Full App Design</strong> – up to 40 screens",
           "<strong>Design System</strong> – components, typography, colors",
           "<strong>Interactive Prototype</strong> – with animations",
@@ -51,10 +53,11 @@ export default function PackagesPage() {
       },
       enterprise: {
         name: "Enterprise",
-        price: "₦2,000,000 to ₦7,5000,000+",
+        price: "Starts at $20,000+",
         description: "Custom project‑based pricing",
         features: [
           "<strong>Everything in Professional</strong> – plus:",
+          "<strong>Tech Stack</strong>: Native Swift/Kotlin or Advanced Flutter / AWS",
           "<strong>Custom Animations</strong> – Lottie / Rive",
           "<strong>Wearable / Tablet Designs</strong>",
           "<strong>User Testing</strong> – 2 rounds with report",
@@ -74,9 +77,10 @@ export default function PackagesPage() {
     web: {
       corporate: {
         name: "Corporate",
-        price: "₦250,000 to ₦500,000",
+        price: "$1,500 to $3,000",
         description: "Depend on the project One‑time project fee",
         features: [
+          "<strong>Tech Stack</strong>: React / Tailwind CSS / Vercel",
           "<strong>Discovery & Planning</strong> – 2 hours",
           "<strong>Wireframes</strong> – up to 5 pages",
           "<strong>UI Design</strong> – up to 5 pages (desktop + mobile)",
@@ -93,10 +97,11 @@ export default function PackagesPage() {
       },
       professional: {
         name: "Professional",
-        price: "₦1,000,000 to ₦3,000,000",
+        price: "$3,500 to $7,000",
         description: "Depend on the project - Full website design & development",
         features: [
           "<strong>Everything in Corporate</strong> – plus:",
+          "<strong>Tech Stack</strong>: Next.js / Node.js / Headless CMS",
           "<strong>Full Website Design</strong> – up to 15 pages",
           "<strong>Design System</strong> – components, variants",
           "<strong>Custom Development</strong> – Next.js / WordPress",
@@ -114,10 +119,11 @@ export default function PackagesPage() {
       },
       enterprise: {
         name: "Enterprise",
-        price: "₦7,500,000+",
+        price: "Starts at $10,000+",
         description: "Custom project‑based pricing",
         features: [
           "<strong>Everything in Professional</strong> – plus:",
+          "<strong>Tech Stack</strong>: Microservices (Go/Node) / AWS / GCP",
           "<strong>E‑commerce / Membership Functionality</strong>",
           "<strong>Custom Web App Features</strong> – dashboards, tools",
           "<strong>Advanced Animations</strong> – GSAP / Framer Motion",
@@ -137,9 +143,10 @@ export default function PackagesPage() {
     desktop: {
       corporate: {
         name: "Corporate",
-        price: "₦800,000 to ₦1,000,000",
+        price: "$2,000 to $4,000",
         description: "One‑time project fee",
         features: [
+          "<strong>Tech Stack</strong>: Tauri or Electron + React",
           "<strong>Requirements Workshop</strong> – 2 hours",
           "<strong>Wireframes</strong> – key screens (up to 10)",
           "<strong>UI Design</strong> – up to 15 screens (Windows/macOS)",
@@ -156,10 +163,11 @@ export default function PackagesPage() {
       },
       professional: {
         name: "Professional",
-        price: "₦1,000,000 to ₦4,000,000",
+        price: "$4,500 to $8,500",
         description: "Depend on the Project - Complete desktop app design",
         features: [
           "<strong>Everything in Corporate</strong> – plus:",
+          "<strong>Tech Stack</strong>: Electron.js / Native APIs / SQLite",
           "<strong>Full App Design</strong> – up to 40 screens",
           "<strong>Design System</strong> – components, theming",
           "<strong>Interactive Prototype</strong> – with complex interactions",
@@ -177,10 +185,11 @@ export default function PackagesPage() {
       },
       enterprise: {
         name: "Enterprise",
-        price: "₦4,000,000 to ₦10,000,000+",
+        price: "Starts at $12,000+",
         description: "Depend on the Project - Custom project‑based pricing",
         features: [
           "<strong>Everything in Professional</strong> – plus:",
+          "<strong>Tech Stack</strong>: C++ / C# (WPF) or High-Performance Tauri (Rust)",
           "<strong>Multi‑platform Adaptation</strong> (Windows, macOS, Linux)",
           "<strong>Advanced Interactions</strong> – drag‑drop, shortcuts",
           "<strong>Offline Functionality Design</strong>",
@@ -334,15 +343,33 @@ export default function PackagesPage() {
 
       <main className="pt-20">
         {/* Packages Hero */}
-        <section className="relative text-white py-24 md:py-32 bg-cover bg-center bg-fixed overflow-hidden mb-16 hero-section">
-          <div className="container mx-auto px-5 max-w-7xl relative z-10 text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 font-['Montserrat']">
-              Software Development Packages –{" "}
-              <span className="text-[#1dc9b7]">Tailored for You</span>
+        <section
+          className="relative text-white py-24 md:py-32 bg-cover bg-center bg-fixed overflow-hidden mb-16"
+          style={{
+            backgroundImage: "linear-gradient(to right, rgba(15, 155, 142, 0.8), rgba(29, 201, 183, 0.8)), url(/assets/images/hero-bg-img.jpg)"
+          }}
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+          <div className="container mx-auto px-5 max-w-7xl relative z-10 text-center flex flex-col items-center">
+            <span className="bg-white/20 border border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide uppercase mb-6 backdrop-blur-md shadow-sm">
+              World-Class Engineering
+            </span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-black mb-6 uppercase tracking-tighter drop-shadow-xl text-white font-sans leading-tight">
+              Transparent Pricing.<br />
+              <span className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">Premium Solutions.</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
-              Choose your platform and package. Every tier is built to international standards, with clear deliverables, timelines, and terms.
+            <p className="text-lg md:text-2xl text-white/95 max-w-4xl mx-auto font-medium leading-relaxed drop-shadow-md mb-8">
+              Choose a tier that fits your scale. Every project is built using modern, internationally recognized technology stacks, guaranteeing performance, security, and extreme scalability.
             </p>
+            
+            <div className="flex flex-wrap justify-center gap-6 text-white/90 text-3xl md:text-4xl mt-4">
+              <i className="fab fa-react hover:text-[#61DAFB] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="React Native"></i>
+              <i className="fab fa-node-js hover:text-[#339933] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="Node.js"></i>
+              <i className="fab fa-aws hover:text-[#FF9900] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="AWS"></i>
+              <i className="fab fa-python hover:text-[#3776AB] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="Python"></i>
+              <i className="fab fa-swift hover:text-[#F05138] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="Swift"></i>
+              <i className="fab fa-docker hover:text-[#2496ED] transition-colors cursor-pointer hover:-translate-y-1 transform duration-300" title="Docker"></i>
+            </div>
           </div>
         </section>
 

@@ -157,16 +157,13 @@ export default function SkillsPage() {
       <main className="pt-0">
         {/* Hero Section */}
         <section
-          className="relative text-white py-28 md:py-36 bg-cover bg-center bg-fixed"
-          style={{
-            backgroundImage:
-              'linear-gradient(135deg, rgba(26,26,46,0.92) 0%, rgba(22,33,62,0.675) 100%), url(assets/images/CTA1.jpg)',
-          }}
+          className="relative pt-32 pb-20 md:pt-40 md:pb-32 bg-cover bg-center overflow-hidden mb-12 text-white"
+          style={{ backgroundImage: "url('/assets/images/CTA1.jpg')" }}
         >
-          <div className="absolute inset-0 pointer-events-none" 
-               style={{
-                 background: 'radial-gradient(circle at 20% 50%, rgba(15,155,142,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(29,201,183,0.1) 0%, transparent 50%)'
-               }}></div>
+          {/* Dark overlay mirroring the home page */}
+          <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+          {/* Subtle pattern background overlay */}
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
           <div className="container mx-auto px-6 text-center relative z-10">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-montserrat uppercase leading-tight mb-6">
               Development & Design{' '}

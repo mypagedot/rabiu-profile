@@ -187,11 +187,10 @@ export default function ContactPage() {
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                      msg.sender === 'user'
+                    className={`max-w-[80%] rounded-2xl px-4 py-2 ${msg.sender === 'user'
                         ? 'bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white rounded-br-none'
                         : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'
-                    }`}
+                      }`}
                   >
                     {msg.text}
                   </div>
@@ -298,9 +297,8 @@ export default function ContactPage() {
               Rabiu<span className="text-white font-semibold">SM</span>
             </Link>
             <ul
-              className={`nav-links ${
-                mobileMenuOpen ? 'flex' : 'hidden'
-              } md:flex absolute md:static top-full left-0 w-full md:w-auto bg-[#1a1a2e] md:bg-transparent flex-col md:flex-row list-none gap-6 items-center p-6 md:p-0 shadow-lg md:shadow-none z-50 transition-all duration-300`}
+              className={`nav-links ${mobileMenuOpen ? 'flex' : 'hidden'
+                } md:flex absolute md:static top-full left-0 w-full md:w-auto bg-[#1a1a2e] md:bg-transparent flex-col md:flex-row list-none gap-6 items-center p-6 md:p-0 shadow-lg md:shadow-none z-50 transition-all duration-300`}
             >
               <li>
                 <Link
@@ -370,37 +368,37 @@ export default function ContactPage() {
 
       {/* Contact Hero */}
       <section
-        className="relative bg-gradient-to-br from-[#1a1a2e]/80 to-[#16213e]/85 bg-cover bg-center bg-fixed text-white py-32 md:py-40 mb-20 overflow-hidden"
+        className="relative pt-32 pb-20 md:pt-40 md:pb-32 bg-cover bg-center overflow-hidden mb-12 text-white"
         style={{ backgroundImage: "url('/assets/images/CTA1.jpg')" }}
       >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="absolute inset-0 featured-case-bg"></div>
-        <div className="container max-w-7xl mx-auto px-5 relative z-10 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight font-['Montserrat',sans-serif] uppercase tracking-wide drop-shadow-lg">
-              Let's{' '}
-              <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:-bottom-2 after:left-0 after:rounded">
-                Connect
-              </span>{' '}
-              & Create Something Amazing
-            </h1>
-            <p className="text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed drop-shadow">
-              Ready to transform your brand with professional design? Reach out for a consultation, request a quote, or just say hello. I'm here to help bring your vision to life.
-            </p>
-            <div className="flex gap-5 justify-center flex-wrap">
-              <a
-                href="mailto:aljauromanee@gmail.com"
-                className="btn inline-flex items-center justify-center gap-2 px-9 py-4 bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden z-10"
-              >
-                <i className="fas fa-paper-plane"></i> Send a Message
-              </a>
-              <a
-                href="tel:+2349123234431"
-                className="btn-outline inline-flex items-center justify-center gap-2 px-9 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#1a1a2e] transition-all duration-300"
-              >
-                <i className="fas fa-calendar-alt"></i> Schedule a Call
-              </a>
-            </div>
+        {/* Dark overlay mirroring the home page */}
+        <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
+        {/* Subtle pattern background overlay */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-montserrat uppercase leading-tight mb-6">
+            Let's{' '}
+            <span className="text-[#1dc9b7] relative inline-block after:content-[''] after:absolute after:w-full after:h-1 after:bg-gradient-to-r after:from-transparent after:via-[#1dc9b7] after:to-transparent after:bottom-[-8px] after:left-0">
+              Connect
+            </span>{' '}
+            & Create Something Amazing
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-10">
+            Ready to transform your brand with professional design? Reach out for a consultation, request a quote, or just say hello. I'm here to help bring your vision to life.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a
+              href="mailto:aljauromanee@gmail.com"
+              className="btn-primary bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white px-8 py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+            >
+              <i className="fas fa-paper-plane"></i> Send a Message
+            </a>
+            <a
+              href="tel:+2349123234431"
+              className="btn-outline border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-[#1a1a2e] transition-all duration-300 flex items-center gap-2"
+            >
+              <i className="fas fa-calendar-alt"></i> Schedule a Call
+            </a>
           </div>
         </div>
       </section>
@@ -481,11 +479,10 @@ export default function ContactPage() {
                         />
                         <label
                           htmlFor={type.id}
-                          className={`block text-center py-3 px-2 rounded-xl border-2 cursor-pointer font-medium transition-all ${
-                            selectedType === type.id
+                          className={`block text-center py-3 px-2 rounded-xl border-2 cursor-pointer font-medium transition-all ${selectedType === type.id
                               ? 'bg-gradient-to-r from-[#0f9b8e] to-[#1dc9b7] text-white border-transparent'
                               : 'bg-gray-50 border-gray-200 text-gray-700 hover:border-[#0f9b8e] hover:-translate-y-1'
-                          }`}
+                            }`}
                         >
                           {type.label}
                         </label>
@@ -719,9 +716,8 @@ export default function ContactPage() {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className={`faq-item bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden transition-all ${
-                  faqOpen === idx ? 'shadow-lg' : ''
-                }`}
+                className={`faq-item bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden transition-all ${faqOpen === idx ? 'shadow-lg' : ''
+                  }`}
               >
                 <button
                   className="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none"
@@ -729,15 +725,13 @@ export default function ContactPage() {
                 >
                   <h3 className="text-lg md:text-xl font-semibold text-[#16213e]">{item.q}</h3>
                   <i
-                    className={`fas fa-chevron-down text-[#0f9b8e] transition-transform duration-300 ${
-                      faqOpen === idx ? 'rotate-180' : ''
-                    }`}
+                    className={`fas fa-chevron-down text-[#0f9b8e] transition-transform duration-300 ${faqOpen === idx ? 'rotate-180' : ''
+                      }`}
                   ></i>
                 </button>
                 <div
-                  className={`faq-answer px-6 transition-all duration-500 overflow-hidden ${
-                    faqOpen === idx ? 'max-h-96 pb-6' : 'max-h-0'
-                  }`}
+                  className={`faq-answer px-6 transition-all duration-500 overflow-hidden ${faqOpen === idx ? 'max-h-96 pb-6' : 'max-h-0'
+                    }`}
                 >
                   <p className="text-gray-600 leading-relaxed">{item.a}</p>
                 </div>

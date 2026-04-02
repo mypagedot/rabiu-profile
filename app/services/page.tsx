@@ -9,42 +9,42 @@ const industrialServices = [
     id: 'mobile-app-dev',
     title: 'Mobile Application Development',
     description:
-      'End‑to‑end mobile app development for iOS and Android. From concept to App Store – I build high‑performance, scalable apps tailored to your business needs.',
+      'End‑to‑end mobile app development for global audiences. From strategic concept to the App Store, I engineer high‑performance, massively scalable applications tailored to your enterprise.',
     icon: 'fa-mobile-alt',
     features: [
       'Native iOS (Swift) & Android (Kotlin)',
-      'Cross‑platform (React Native / Flutter)',
-      'Backend integration & APIs',
-      'App Store & Play Store deployment',
-      'Maintenance & support',
+      'High-Performance Cross‑platform (React Native / Flutter)',
+      'Scalable Microservices & Custom APIs',
+      'Global App Store & Play Store Deployment',
+      'Dedicated Long-term Maintenance',
     ],
   },
   {
     id: 'visual-brand-system',
     title: 'Visual Brand System Designer',
     description:
-      'Complete brand identity that communicates your unique value. I design cohesive visual systems that work across digital and print.',
+      'Complete, premium brand identities that communicate unquestionable value. I design cohesive, world-class visual systems that dominate across digital and physical mediums.',
     icon: 'fa-paint-brush',
     features: [
-      'Logo design & variations',
-      'Color palette & typography',
-      'Brand guidelines documentation',
-      'Stationery & marketing materials',
-      'Design system for digital products',
+      'Premium Logo Engineering & Lockups',
+      'Advanced Color Psychology & Typography',
+      'Comprehensive Brand Guidelines Documentation',
+      'Corporate Stationery & Marketing Assets',
+      'Scalable Design Systems for Digital Products',
     ],
   },
   {
     id: 'ui-ux-wireframing',
     title: 'UI/UX Wireframing & Prototyping',
     description:
-      'User‑centered design for mobile apps. I create wireframes, interactive prototypes, and high‑fidelity UI that align with platform guidelines.',
+      'User‑centered design engineered for global conversion. I craft intuitive wireframes, interactive high‑fidelity prototypes, and UI experiences that align perfectly with international platform guidelines.',
     icon: 'fa-drafting-compass',
     features: [
-      'User research & personas',
-      'Wireframes (low to high fidelity)',
-      'Interactive prototypes (Figma)',
-      'Usability testing',
-      'Design handoff for developers',
+      'Deep User Research & Persona Mapping',
+      'Strategic Wireframes (Low to High Fidelity)',
+      'Advanced Interactive Prototypes (Figma)',
+      'Global Usability Testing & Analytics',
+      'Perfect Pixel Design Handoff for Engineers',
     ],
   },
 ];
@@ -55,10 +55,10 @@ const trainingPackages = [
     id: 'become-mobile-engineer',
     title: 'Become a Mobile Software Engineer – Full Package',
     description:
-      'Master both native and cross‑platform development. Build real‑world apps, learn backend integration, and get career support.',
+      'Master both native and cross‑platform development. Build real‑world apps, learn backend integration, and get global career placement support.',
     icon: 'fa-code',
     duration: '16 weeks',
-    priceNGN: 1200000,
+    priceUSD: 1200,
     modules: [
       {
         name: 'Programming Fundamentals',
@@ -114,10 +114,10 @@ const trainingPackages = [
     id: 'become-brand-designer',
     title: 'Become a Visual Brand System Designer – Full Package',
     description:
-      'Learn to create complete brand identities from scratch. Includes logo design, color theory, typography, and brand guidelines.',
+      'Learn to create complete, internationally-recognized brand identities. Master premium logo design, deep color theory, and corporate typography.',
     icon: 'fa-paint-brush',
     duration: '10 weeks',
-    priceNGN: 850000,
+    priceUSD: 850,
     modules: [
       {
         name: 'Brand Strategy',
@@ -165,10 +165,10 @@ const trainingPackages = [
     id: 'become-uiux-designer',
     title: 'Become a UI/UX Designer – Full Package',
     description:
-      'Design intuitive mobile experiences. Cover wireframing, prototyping, user research, and design systems.',
+      'Design world-class, intuitive digital experiences. Master advanced wireframing, high-fidelity prototyping, global user research, and scalable design systems.',
     icon: 'fa-pencil-ruler',
     duration: '12 weeks',
-    priceNGN: 1000000,
+    priceUSD: 1000,
     modules: [
       {
         name: 'UX Fundamentals',
@@ -487,7 +487,7 @@ export default function ServicesPage() {
                     </div>
                     <div className="flex items-center gap-1 font-semibold">
                       <i className="fas fa-tag"></i>
-                      <span>₦{pkg.priceNGN.toLocaleString()}</span>
+                      <span>${pkg.priceUSD.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
